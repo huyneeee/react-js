@@ -1,0 +1,107 @@
+{
+  "products": [
+    {
+      "id": 981,
+      "cate_id": 754,
+      "name": "Aliquam Quaerat",
+      "price": 108.8,
+      "quantity": 12,
+      "image": "https://demo.codezeel.com/opencart/OPC05/OPC050120/image/cache/catalog/02-616x800.jpg",
+      "status": true,
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita maxime aut sit dolores facere voluptas architecto, ad fuga amet, recusandae unde? Saepe eaque quidem architecto exercitationem beatae corporis odio aspernatur."
+    },
+    {
+      "id": 129,
+      "cate_id": 754,
+      "name": "Commodi Consequatur",
+      "price": 134,
+      "quantity": 30,
+      "image": "https://demo.codezeel.com/opencart/OPC05/OPC050120/image/cache/catalog/03-616x800.jpg",
+      "status": true,
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita maxime aut sit dolores facere voluptas architecto, ad fuga amet, recusandae unde? Saepe eaque quidem architecto exercitationem beatae corporis odio aspernatur."
+    },
+    {
+      "id": 128,
+      "cate_id": 974,
+      "name": "Reprehenderit Aliquam",
+      "price": 110,
+      "quantity": 23,
+      "image": "https://demo.codezeel.com/opencart/OPC05/OPC050120/image/cache/catalog/14-616x800.jpg",
+      "status": true,
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita maxime aut sit dolores facere voluptas architecto, ad fuga amet, recusandae unde? Saepe eaque quidem architecto exercitationem beatae corporis odio aspernatur."
+    },
+    {
+      "id": 928,
+      "cate_id": 874,
+      "name": "Occasion Praesentium",
+      "price": 105.02,
+      "quantity": 26,
+      "image": "https://demo.codezeel.com/opencart/OPC05/OPC050120/image/cache/catalog/12-616x800.jpg",
+      "status": true,
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita maxime aut sit dolores facere voluptas architecto, ad fuga amet, recusandae unde? Saepe eaque quidem architecto exercitationem beatae corporis odio aspernatur."
+    },
+    {
+      "name": "Laudant Doloremque",
+      "cate_id": 874,
+      "image": "https://firebasestorage.googleapis.com/v0/b/shop-ff2b2.appspot.com/o/images%2F08-616x800.jpg?alt=media&token=11639ddf-e51e-4c6c-ac37-e62a2dbe54dc",
+      "quantity": "29",
+      "price": 92,
+      "description": "The D300 reacts with lightning speed, powering up in a mere 0.13 seconds and shooting with an imperceptible 45-millisecond shutter release lag time. The D300 is capable of shooting at a rapid six frames per second and can go as fast as eight frames per second when using the optional MB-D10 multi-power battery pack. In continuous bursts, the D300 can shoot up to 100 shots at full 12.3-megapixel resolution. (NORMAL-LARGE image setting, using a SanDisk Extreme IV 1GB CompactFlash card.)\n\nThe D300 incorporates a range of innovative technologies and features that will significantly improve the accuracy, control, and performance photographers can get from their equipment. Its new Scene Recognition System advances the use of Nikon's acclaimed 1,005-segment sensor to recognize colors and light patterns that help the camera determine the subject and the type of scene being photographed before a picture is taken. This information is used to improve the accuracy of autofocus, autoexposure, and auto white balance functions in the D300. For example, the camera can track moving subjects better and by identifying them, it can also automatically select focus points faster and with greater accuracy. It can also analyze highlights and more accurately determine exposure, as well as infer light sources to deliver more accurate white balance detection.",
+      "status": true,
+      "id": 657
+    },
+    {
+      "name": "huy",
+      "image": "https://firebasestorage.googleapis.com/v0/b/shop-ff2b2.appspot.com/o/images%2F61131654_1383806901772830_5121466973963681792_n.png?alt=media&token=e17c9bc9-559d-4a1f-91f8-052939d84b61",
+      "quantity": "1",
+      "price": "921",
+      "description": "hjg",
+      "cate_id": "Plants For Interior",
+      "id": 264,
+      "status": true
+    }
+  ],
+  "categories": [
+    {
+      "id": 754,
+      "name": "Plants For Interior",
+      "image": "https://demo.codezeel.com/opencart/OPC05/OPC050120/image/catalog/sub-banner-1.jpg",
+      "description": "Example of category description text"
+    },
+    {
+      "id": 974,
+      "name": "Plants For Healthy",
+      "image": "https://demo.codezeel.com/opencart/OPC05/OPC050120/image/catalog/sub-banner-2.jpg",
+      "description": "Example of category description text"
+    },
+    {
+      "id": 874,
+      "name": "Cactus Pot Flower",
+      "image": "https://demo.codezeel.com/opencart/OPC05/OPC050120/image/catalog/sub-banner-3.jpg",
+      "description": "Example of category description text"
+    }
+  ],
+  "blogs": [
+    {
+      "id": 928,
+      "name": "Necessitatibus Saepe Eveniet",
+      "image": "https://demo.codezeel.com/opencart/OPC05/OPC050120/image/cache/catalog/blog-6-891x657.jpg",
+      "date": "28 February 2021",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+    },
+    {
+      "id": 231,
+      "name": "Quis Autem Reprehender Pariatur",
+      "image": "https://demo.codezeel.com/opencart/OPC05/OPC050120/image/cache/catalog/blog-4-891x657.jpg",
+      "date": "28 February 2021",
+      "content": "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects.At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga"
+    },
+    {
+      "id": 927,
+      "name": "Voluptatem Accusantium Doloremque",
+      "image": "https://demo.codezeel.com/opencart/OPC05/OPC050120/image/cache/catalog/blog-5-891x657.jpg",
+      "date": "28 February 2021",
+      "content": "If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc."
+    }
+  ]
+}
