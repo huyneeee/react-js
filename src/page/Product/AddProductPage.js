@@ -1,12 +1,14 @@
-import React , { useEffect , useState } from 'react'
-import firebase from '../../firebase';
+import React, { useEffect, useState } from 'react'
+
 import { useForm } from 'react-hook-form';
-import categoryApi from '../../api/categoryApi'
-const EditProductPage = ({product,onUpdate }) => {
+import categoryApi from '../../api/categoryApi';
+import firebase from '../../firebase';
+const AddProductPage = ({onSubmit}) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
+
     const [category, setCategory] = useState([]);
 
-
+    // get category api
     useEffect(() => {
         const fetchCategory = async () => {
             try {
@@ -18,40 +20,26 @@ const EditProductPage = ({product,onUpdate }) => {
         }
         fetchCategory();
     }, []);
+
     const onHandleSubmit = (data) => {
-        const image_product = data.imageNew[0];
-        if(image_product){
+
+        const image_product = data.image[0];
 
             let storageRef = firebase.storage().ref(`images/${image_product.name}`);
             storageRef.put(image_product).then(function () {
                 storageRef.getDownloadURL().then(async (url) => {
-                    const productUpdate = {
-                        ...product,
-                        name:data.name,
-                        image:url,
-                        quantity:data.quantity,
-                        price:data.price,
-                        cate_id:data.cate_id,
-                        status:data.status,
-                        description:data.description
+                    const product = {
+                        ...data,
+                        id: Math.floor(Math.random() * 1000),
+                        image: url,
+                        status: true
+    
                     }
-                    onUpdate(productUpdate);
+                    onSubmit(product);
                 })
             })
-        }else{
-            const productUpdate = {
-                ...product,
-                name:data.name,
-                image:data.imageOld,
-                quantity:data.quantity,
-                price:data.price,
-                cate_id:data.cate_id,
-                status:data.status,
-                description:data.description
-            }
-            onUpdate(productUpdate);
-        }
-       
+        
+
     }
     return (
         <div className="relative bg-gray-100">
@@ -68,46 +56,39 @@ const EditProductPage = ({product,onUpdate }) => {
                                             <div className="col-span-6 sm:col-span-3 lg:col-span-2">
                                                 <label className="block text-sm font-medium text-gray-700">Name</label>
                                                 <div className="relative">
+                                                    <input
+                                                        type="text"
+                                                        name="name"
+                                                        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                        {...register("name", { required: true, pattern: /^[A-Za-z ]+$/i })}
 
-                                                        <input
-                                                            type="text"
-                                                            name="name"
-                                                            className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                            {...register("name", { required: true, pattern: /^[A-Za-z ]+$/i })}
-                                                            defaultValue={product.name}
-                                                        /> 
+                                                    />
+
                                                     {errors.name && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
                                                 </div>
                                             </div>
-
-
-                                            <div className="col-span-6 ">
-                                                    <label className="block text-sm font-medium text-gray-700">Image </label>
-                                                    <div className="bg-cover bg-center w-40 h-40" >
-                                                        <img src={product.image} className="w-full h-full" />
-                                                    </div>
-                                                    <input type="hidden" value={product.image} {...register("imageOld")} />
-                                                    <div className="relative">
-                                                        <input 
-                                                            type="file" 
-                                                            className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                            {...register("imageNew",{required:false})} />
-
-                                                    </div>
+                                            <div className="col-span-6">
+                                                <label className="block text-sm font-medium text-gray-700">Image </label>
+                                                <div className="relative">
+                                                    <input
+                                                        type="file"
+                                                        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                        {...register("image", { required: true })}
+                                                    />
                                                 </div>
+                                            </div>
 
 
                                             <div className="col-span-6 sm:col-span-3">
                                                 <label className="block text-sm font-medium text-gray-700">Quantity </label>
                                                 <div className="relative">
-                                                        <input
-                                                            type="number"
-                                                            name="quantity"
-                                                            className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                            {...register("quantity", { required: true })}
-                                                            defaultValue={product.quantity}
-                                                        />
-                                                      
+                                                    <input
+                                                        type="number"
+                                                        name="quantity"
+                                                        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                        {...register("quantity", { required: true })}
+                                                    />
+
                                                     {errors.quantity && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
                                                 </div>
                                             </div>
@@ -115,30 +96,27 @@ const EditProductPage = ({product,onUpdate }) => {
 
                                                 <label className="block text-sm font-medium text-gray-700">Price</label>
                                                 <div className="relative">
+                                                    <input
+                                                        type="number"
+                                                        name="price"
+                                                        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                        {...register("price", { required: true })}
+                                                    />
 
-                                                        <input
-                                                            type="number"
-                                                            name="price"
-                                                            className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                            {...register("price", { required: true })}
-                                                            defaultValue={product.price}
-                                                        />
                                                     {errors.price && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
                                                 </div>
                                             </div>
 
                                             <div className="col-span-6 ">
-
                                                 <label className="block text-sm font-medium text-gray-700">Description</label>
                                                 <div className="relative">
-                                                        <textarea
-                                                            id="description" cols={30} rows={5}
-                                                            className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                            name="description"
-                                                            {...register("description", { required: true })}
-                                                            defaultValue={product.description}
-                                                        />
-                                                        
+                                                    <textarea
+                                                        id="description" cols={30} rows={5}
+                                                        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                        name="description"
+                                                        {...register("description", { required: true })}
+                                                    />
+
                                                     {errors.description && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
 
                                                 </div>
@@ -182,4 +160,4 @@ const EditProductPage = ({product,onUpdate }) => {
     )
 }
 
-export default EditProductPage
+export default AddProductPage

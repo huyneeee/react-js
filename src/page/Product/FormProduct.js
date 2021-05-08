@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
-
-import { useForm } from 'react-hook-form'
-
+import React, { useEffect, useState } from "react";
+import { useForm } from 'react-hook-form';
 import categoryApi from "../../api/categoryApi";
+import productApi from "../../api/productApi";
+import firebase from '../../firebase';
 
-import firebase from '../../firebase'
+const FormProduct = ({ onSubmit, idProduct , updateProduct }) => {
 
-const FormProduct = ({ onSubmit, idProduct }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const [category, setCategory] = useState([]);
 
+    const [product, setProduct] = useState()
+
+    // get category api
     useEffect(() => {
         const fetchCategory = async () => {
             try {
@@ -25,24 +27,27 @@ const FormProduct = ({ onSubmit, idProduct }) => {
 
     const onHandleSubmit = (data) => {
 
+      
         const image_product = data.image[0];
 
-        let storageRef = firebase.storage().ref(`images/${image_product.name}`);
-        storageRef.put(image_product).then(function () {
-            storageRef.getDownloadURL().then(async (url) => {
-                const product = {
-                    ...data,
-                    id: Math.floor(Math.random() * 1000),
-                    image: url,
-                    status: true
-
-                }
-                onSubmit(product);
-
+            let storageRef = firebase.storage().ref(`images/${image_product.name}`);
+            storageRef.put(image_product).then(function () {
+                storageRef.getDownloadURL().then(async (url) => {
+                    const product = {
+                        ...data,
+                        id: Math.floor(Math.random() * 1000),
+                        image: url,
+                        status: true
+    
+                    }
+                    onSubmit(product);
+                })
             })
-        })
+        
 
     }
+
+
 
     return (
         <div className="relative bg-gray-100">
@@ -57,42 +62,82 @@ const FormProduct = ({ onSubmit, idProduct }) => {
                                     <div className="px-4 py-5 bg-white sm:p-6">
                                         <div className="grid grid-cols-6 gap-6">
                                             <div className="col-span-6 sm:col-span-3 lg:col-span-2">
-
                                                 <label className="block text-sm font-medium text-gray-700">Name</label>
                                                 <div className="relative">
-                                                    <input
-                                                        type="text"
-                                                        name="name"
-                                                        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                        {...register("name", { required: true, pattern: /^[A-Za-z ]+$/i })}
 
-                                                    />
+                                                    {product ?
+                                                        <input
+                                                            type="text"
+                                                            name="name"
+                                                            className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                            {...register("name", { required: true, pattern: /^[A-Za-z ]+$/i })}
+                                                            defaultValue={product.name}
+                                                        /> :
+                                                        <input
+                                                            type="text"
+                                                            name="name"
+                                                            className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                            {...register("name", { required: true, pattern: /^[A-Za-z ]+$/i })}
+
+                                                        />
+                                                    }
                                                     {errors.name && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
                                                 </div>
                                             </div>
-                                            <div className="col-span-6 sm:col-span-3 lg:col-span-2">
-
-                                                <label className="block text-sm font-medium text-gray-700">Image </label>
-                                                <div className="relative">
-                                                    <input
-                                                        type="file"
-                                                        name="image"
-                                                        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                        {...register("image", { required: true })}
-                                                    />
 
 
-                                                </div>
-                                            </div>
+                                            {product ?
+                                                (<div className="col-span-6 ">
+                                                    <label className="block text-sm font-medium text-gray-700">Image </label>
+                                                    <div className="bg-cover bg-center w-40 h-40" >
+                                                        <img src={product.image} className="w-full h-full" />
+                                                    </div>
+                                                    <input 
+                                                        type="hidden" 
+                                                        defaultValue={product.image} 
+                                                        {...register("imageOld")}  />
+                                                    <div className="relative">
+                                                        <input 
+                                                            type="file" 
+                                                            className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                            {...register("image",{required:false})} />
+
+                                                    </div>
+                                                </div>) 
+                                                :
+                                                (<div className="col-span-6">
+                                                    <label className="block text-sm font-medium text-gray-700">Image </label>
+                                                    <div className="relative">
+                                                        <input 
+                                                            type="file"  
+                                                            className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" 
+                                                            {...register("image", { required: true})}
+                                                            />
+                                                    </div>
+                                                </div>)
+                                            }
+
+
                                             <div className="col-span-6 sm:col-span-3">
                                                 <label className="block text-sm font-medium text-gray-700">Quantity </label>
                                                 <div className="relative">
-                                                    <input
-                                                        type="number"
-                                                        name="quantity"
-                                                        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                        {...register("quantity", { required: true })}
-                                                    />
+
+                                                    {product ?
+                                                        <input
+                                                            type="number"
+                                                            name="quantity"
+                                                            className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                            {...register("quantity", { required: true })}
+                                                            defaultValue={product.quantity}
+                                                        />
+                                                        :
+                                                        <input
+                                                            type="number"
+                                                            name="quantity"
+                                                            className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                            {...register("quantity", { required: true })}
+                                                        />
+                                                    }
                                                     {errors.quantity && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
                                                 </div>
                                             </div>
@@ -100,12 +145,23 @@ const FormProduct = ({ onSubmit, idProduct }) => {
 
                                                 <label className="block text-sm font-medium text-gray-700">Price</label>
                                                 <div className="relative">
-                                                    <input
-                                                        type="number"
-                                                        name="price"
-                                                        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                        {...register("price", { required: true })}
-                                                    />
+
+                                                    {product ?
+                                                        <input
+                                                            type="number"
+                                                            name="price"
+                                                            className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                            {...register("price", { required: true })}
+                                                            defaultValue={product.price}
+                                                        />
+                                                        :
+                                                        <input
+                                                            type="number"
+                                                            name="price"
+                                                            className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                            {...register("price", { required: true })}
+                                                        />
+                                                    }
                                                     {errors.price && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
                                                 </div>
                                             </div>
@@ -114,12 +170,23 @@ const FormProduct = ({ onSubmit, idProduct }) => {
 
                                                 <label className="block text-sm font-medium text-gray-700">Description</label>
                                                 <div className="relative">
-                                                    <textarea
-                                                        id="description" cols={30} rows={5}
-                                                        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                        name="description"
-                                                        {...register("description", { required: true })}
-                                                    />
+
+                                                    {product ?
+                                                        <textarea
+                                                            id="description" cols={30} rows={5}
+                                                            className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                            name="description"
+                                                            {...register("description", { required: true })}
+                                                            defaultValue={product.description}
+                                                        />
+                                                        :
+                                                        <textarea
+                                                            id="description" cols={30} rows={5}
+                                                            className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                            name="description"
+                                                            {...register("description", { required: true })}
+                                                        />
+                                                    }
                                                     {errors.description && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
 
                                                 </div>
@@ -128,11 +195,18 @@ const FormProduct = ({ onSubmit, idProduct }) => {
                                                 <label className="block text-sm font-medium text-gray-700">Category</label>
                                                 <div className="relative">
                                                     <select id="cate_id" className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                        {category.map(cate => {
-                                                            return (
-                                                                <option key={cate.id} {...register("cate_id", { required: true })}>{cate.name}</option>
-                                                            )
-                                                        })}
+
+                                                        {
+                                                            category.map(cate => {
+                                                                return (
+
+                                                                    <option key={cate.id} {...register("cate_id", { required: true })}>{cate.name}</option>
+                                                                )
+                                                            })
+
+                                                        }
+
+
                                                     </select>
                                                     {errors.cate_id && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
                                                 </div>

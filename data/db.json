@@ -42,23 +42,31 @@
     },
     {
       "name": "Laudant Doloremque",
-      "cate_id": 874,
+      "cate_id": 821,
       "image": "https://firebasestorage.googleapis.com/v0/b/shop-ff2b2.appspot.com/o/images%2F08-616x800.jpg?alt=media&token=11639ddf-e51e-4c6c-ac37-e62a2dbe54dc",
       "quantity": "29",
       "price": 92,
-      "description": "The D300 reacts with lightning speed, powering up in a mere 0.13 seconds and shooting with an imperceptible 45-millisecond shutter release lag time. The D300 is capable of shooting at a rapid six frames per second and can go as fast as eight frames per second when using the optional MB-D10 multi-power battery pack. In continuous bursts, the D300 can shoot up to 100 shots at full 12.3-megapixel resolution. (NORMAL-LARGE image setting, using a SanDisk Extreme IV 1GB CompactFlash card.)\n\nThe D300 incorporates a range of innovative technologies and features that will significantly improve the accuracy, control, and performance photographers can get from their equipment. Its new Scene Recognition System advances the use of Nikon's acclaimed 1,005-segment sensor to recognize colors and light patterns that help the camera determine the subject and the type of scene being photographed before a picture is taken. This information is used to improve the accuracy of autofocus, autoexposure, and auto white balance functions in the D300. For example, the camera can track moving subjects better and by identifying them, it can also automatically select focus points faster and with greater accuracy. It can also analyze highlights and more accurately determine exposure, as well as infer light sources to deliver more accurate white balance detection.",
+      "description": "The D300unctions in the D300. For example, the camera can track moving subjects better and by identifying them, it can also automatically select focus points faster and with greater accuracy. It can also analyze highlights and more accurately determine exposure, as well as infer light sources to deliver more accurate white balance detection.",
       "status": true,
       "id": 657
     },
     {
-      "name": "huy",
-      "image": "https://firebasestorage.googleapis.com/v0/b/shop-ff2b2.appspot.com/o/images%2F61131654_1383806901772830_5121466973963681792_n.png?alt=media&token=e17c9bc9-559d-4a1f-91f8-052939d84b61",
-      "quantity": "1",
-      "price": "921",
-      "description": "hjg",
+      "name": "huy nehihi",
+      "image": "https://firebasestorage.googleapis.com/v0/b/shop-ff2b2.appspot.com/o/images%2Fas.jpg?alt=media&token=91250a59-7ac1-4831-b571-29b1b7887af7",
+      "quantity": "92",
+      "price": "129",
+      "description": "ưedfrt",
       "cate_id": "Plants For Interior",
-      "id": 264,
-      "status": true
+      "id": 651
+    },
+    {
+      "name": "huy quang",
+      "image": "https://firebasestorage.googleapis.com/v0/b/shop-ff2b2.appspot.com/o/images%2Fstretched-1920-1080-733114.png?alt=media&token=bfdf2034-feda-41c2-bc97-2cc4c096a533",
+      "quantity": "54",
+      "price": "927",
+      "description": "lorem120",
+      "cate_id": "Plants For Interior",
+      "id": 595
     }
   ],
   "categories": [

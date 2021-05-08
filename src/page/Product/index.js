@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { GrClose } from 'react-icons/gr'
 import Modal from 'react-modal'
-import { useSelector } from 'react-redux'
 import productApi from '../../api/productApi'
 import FormProduct from './FormProduct'
 import List from './List'
+import { GrClose } from 'react-icons/gr'
+import EditProductPage from './EditProductPage'
+import AddProductPage from './AddProductPage'
 Modal.setAppElement('#root');
 const ProductsPage = () => {
 
     const [listProducts, setListProducts] = useState([]);
-    const [modal, setModal] = useState(false)
-
+    const [showAddForm, setShowAddForm] = useState(false);
+    const [showEditForm, setShowEditForm] = useState(false);
+    const [updateProduct,setUpdateProduct] = useState();
     useEffect(() => {
         const fecthListProduct = async () => {
             try {
@@ -31,8 +33,8 @@ const ProductsPage = () => {
                 ...listProducts,
                 product
             ])
+            setShowAddForm(false);
             alert('Thêm sản phẩm thành công !');
-            setModal(false);
         } catch (error) {
             alert('Thêm sản phẩm thất bại !')
         }
@@ -58,37 +60,47 @@ const ProductsPage = () => {
 
     }
 
-    const updateProduct = (idProduct) => {
-        console.log(idProduct);
+
+    const onHadleShowEdit = (status,product)=>{
+  
+        setShowEditForm(status);
+        setUpdateProduct(product);
+    }
+    const onUpdateProduct = async (product)=>{
+        try {
+            await productApi.update(product.id,product);
+
+            const findIndexProduct = listProducts.findIndex(ele=>ele.id===product.id);
+            
+            const newListProducts = [ ...listProducts];
+            newListProducts.splice(findIndexProduct,1,product);
+            setListProducts(newListProducts);
+            
+            setShowEditForm(false);
+            alert('UPDATE sản phẩm thành công !');
+        } catch (error) {
+            alert('UPDATE sản phẩm thất bại !')
+        }
 
     }
 
-    // redux
-    const productList = useSelector(state=>state.product);
-    console.log('product list ' , productList);
+    if(showAddForm===true){
+        return (
+            <AddProductPage onSubmit={onAddProduct} />
+        )
+    }else if(showEditForm===true){
+        return (
+            <EditProductPage product={updateProduct} onUpdate={onUpdateProduct} />
+        )
+    }else{
+        return (
+            <div className="px-32 mt-10">
+            <button onClick={()=>{setShowAddForm(true)}}>Add Product</button>
+            <List listProducts={listProducts} removeProduct={removeProduct} showEditForm={onHadleShowEdit} />
+            </div>
+        )
+    }
 
-    return (
-
-        <div className="px-32 mt-10">
-
-            <button 
-                onClick={() => { setModal(true) }}
-                className="bg-blue-400 px-4 py-2 text-white"
-            >
-                Add Product 
-            </button>
-
-            <List listProducts={listProducts} removeProduct={removeProduct} updateProduct={updateProduct} />
-
-            <Modal
-                isOpen={modal}
-            >
-                <FormProduct onSubmit={onAddProduct} />
-                <GrClose className="absolute top-3 right-3 text-2xl" onClick={() => { setModal(false) }} />
-            </Modal>
-
-        </div>
-    )
 }
 
 export default ProductsPage

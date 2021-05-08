@@ -25,7 +25,7 @@ const LastesBlog = () => {
             <div className="grid grid-cols-3 gap-8 mt-6">
                 {listBlog.map((blog) => {
                     return (
-                        <div className=" h-auto group overflow-hidden">
+                        <div className=" h-auto group overflow-hidden" key={blog.id}>
                             <div
                                 className=" w-full h-64 bg-gray-500 bg-no-repeat bg-cover bg-center  "
                                 style={{ backgroundImage: `url(${blog.image})` }}

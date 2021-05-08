@@ -1,12 +1,9 @@
 import React,{useState} from 'react'
 import { AiFillDelete } from 'react-icons/ai'
 import { RiEdit2Fill } from 'react-icons/ri'
-import { GrClose } from 'react-icons/gr'
-import Modal from 'react-modal'
-import FormProduct from './FormProduct'
 
-const List = ({ listProducts, removeProduct, updateProduct }) => {
-    const [modal, setModal] = useState(false)
+const List = ({ listProducts, removeProduct, onHandleUpdate,showEditForm  }) => {
+
     return (
         <div>
             <table className="items-center w-full bg-transparent border-collapse" >
@@ -70,8 +67,7 @@ const List = ({ listProducts, removeProduct, updateProduct }) => {
                                 <RiEdit2Fill 
                                     className="text-3xl  text-red-600" 
                                     onClick={() => {
-                                        setModal(true)
-                                        updateProduct(product.id)
+                                        showEditForm(true,product);
                                     }}
                                 />
                                 <AiFillDelete className="text-3xl  text-red-600" onClick={() => removeProduct(product.id)} />
@@ -81,13 +77,7 @@ const List = ({ listProducts, removeProduct, updateProduct }) => {
 
                 </tbody>
             </table>
-            {/* modal update */}
-            <Modal
-                isOpen={modal}
-            >
-                <FormProduct />
-                <GrClose className="absolute top-3 right-3 text-2xl" onClick={() => { setModal(false) }} />
-            </Modal>
+
         </div>
     )
 }
