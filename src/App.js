@@ -1,15 +1,15 @@
 
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
 
+  Route, Switch
+} from "react-router-dom";
 import ToDoList from './components/ToDoList/ToDoList';
-import ProductsPage from './page/Product'
+import CategoryPage from "./page/Category";
 import HomePage from "./page/Home";
-import ProductDetail from './page/ProductDetail'
-import EditProductPage from './page/Product/EditProductPage';
+import ProductsPage from './page/Product';
+import ProductDetail from './page/ProductDetail';
+
 function App() {
 
   return (
@@ -24,7 +24,7 @@ function App() {
 
           <Route path="/products" exact component={ProductsPage} />
 
-          {/* <Route path="/products/edit" exact component={EditProductPage} /> */}
+          <Route path="/category" exact component={CategoryPage} />
 
           <Route path="/shop/:id" component={ProductDetail} />
 

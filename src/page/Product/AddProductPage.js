@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import categoryApi from '../../api/categoryApi';
 import firebase from '../../firebase';
-const AddProductPage = ({onSubmit}) => {
+
+const AddProductPage = ({onSubmit,onHadleShowList}) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const [category, setCategory] = useState([]);
@@ -20,7 +20,6 @@ const AddProductPage = ({onSubmit}) => {
         }
         fetchCategory();
     }, []);
-
     const onHandleSubmit = (data) => {
 
         const image_product = data.image[0];
@@ -47,7 +46,7 @@ const AddProductPage = ({onSubmit}) => {
                 <div className="flex flex-wrap">
                     <div className="w-full xl:w-12/12 mb-12 xl:mb-0 px-4 mt-8">
                         <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ">
-                            <h1 className="text-center uppercase text-2xl font-bold my-4">Modal Add Product</h1>
+                            <h1 className="text-center uppercase text-2xl font-bold my-4">Add Product</h1>
 
                             <form onSubmit={handleSubmit(onHandleSubmit)} >
                                 <div className="shadow overflow-hidden sm:rounded-md">
@@ -124,13 +123,18 @@ const AddProductPage = ({onSubmit}) => {
                                             <div className="col-span-6 ">
                                                 <label className="block text-sm font-medium text-gray-700">Category</label>
                                                 <div className="relative">
-                                                    <select id="cate_id" className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                    <select className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
                                                         {
-                                                            category.map(cate => {
+                                                            category.map((c,index) => {
                                                                 return (
-
-                                                                    <option key={cate.id} {...register("cate_id", { required: true })}>{cate.name}</option>
+                                                                    <option 
+                                                                    key={index}
+                                                                    value={c.id} 
+                                                                    {...register("cate_id", { required: true })} 
+                                                                     >
+                                                                        {c.id}
+                                                                    </option>
                                                                 )
                                                             })
 
@@ -144,6 +148,8 @@ const AddProductPage = ({onSubmit}) => {
                                         </div>
                                     </div>
                                     <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                                    <button
+                                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500  focus:outline-none  mr-5" onClick={()=>onHadleShowList(false)} > Exit </button>
                                         <button
                                             type="submit"
                                             className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" > Save </button>

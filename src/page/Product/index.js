@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import productApi from '../../api/productApi'
-import FormProduct from './FormProduct'
-import List from './List'
-import { GrClose } from 'react-icons/gr'
-import EditProductPage from './EditProductPage'
+import Navigation from '../../components/Layout/Navigation'
 import AddProductPage from './AddProductPage'
+import EditProductPage from './EditProductPage'
+import List from './List'
 Modal.setAppElement('#root');
 const ProductsPage = () => {
 
@@ -66,6 +65,10 @@ const ProductsPage = () => {
         setShowEditForm(status);
         setUpdateProduct(product);
     }
+    const onHadleShowList = (status)=>{
+        setShowAddForm(status);
+        setShowEditForm(status);
+    }
     const onUpdateProduct = async (product)=>{
         try {
             await productApi.update(product.id,product);
@@ -86,16 +89,17 @@ const ProductsPage = () => {
 
     if(showAddForm===true){
         return (
-            <AddProductPage onSubmit={onAddProduct} />
+            <AddProductPage onSubmit={onAddProduct} onHadleShowList={onHadleShowList} />
         )
     }else if(showEditForm===true){
         return (
-            <EditProductPage product={updateProduct} onUpdate={onUpdateProduct} />
+            <EditProductPage product={updateProduct} onUpdate={onUpdateProduct} onHadleShowList={onHadleShowList}  />
         )
     }else{
         return (
             <div className="px-32 mt-10">
-            <button onClick={()=>{setShowAddForm(true)}}>Add Product</button>
+            <Navigation />
+            <button className="px-3 py-2 bg-blue-400 text-white outline:none focus:outline-none" onClick={()=>setShowAddForm(true)}  >Add Product</button>
             <List listProducts={listProducts} removeProduct={removeProduct} showEditForm={onHadleShowEdit} />
             </div>
         )

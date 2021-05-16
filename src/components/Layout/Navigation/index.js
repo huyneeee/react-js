@@ -13,6 +13,7 @@ const Navigation = () => {
                 <li className="p-3 "><Link to="/" className="text-gray-800 tracking-widest">Home</Link></li>
                 <li className="p-3 "><Link to="/todolist" className="text-gray-800 tracking-widest">Todo List</Link></li>
                 <li className="p-3 "><Link to="/products" className="text-gray-800 tracking-widest">Products</Link></li>
+                <li className="p-3 "><Link to="/category" className="text-gray-800 tracking-widest">Category</Link></li>
             </ul>
             <div className=" flex text-2xl">
                     <BsSearch className="mr-5" />
