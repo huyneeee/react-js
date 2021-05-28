@@ -5,7 +5,7 @@ const blogApi = {
         return axiosClient.get(url);
     },
     getOne(id){
-        const url = `/blogs/${id}`;
+        const url = `/blog/${id}`;
         return axiosClient.get(url);
     },
     add(blogs){
@@ -13,12 +13,16 @@ const blogApi = {
         return axiosClient.post(url, blogs);
     },
     remove(id){
-        const url = `/blogs/${id}`;
+        const url = `/blog/${id}`;
         return axiosClient.delete(url)
     },
     update(id,blogs){
-        const url = `/blogs/${id}`;
+        const url = `/blog/${id}`;
         return axiosClient.put(url,blogs);
+    }
+    ,image(id){
+        const url = `/blog/image/${id}`;
+        return axiosClient.get(url);
     }
 }
 export default blogApi;

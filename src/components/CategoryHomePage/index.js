@@ -1,30 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import categoryApi from '../../api/categoryApi'
 
-const CategoryHomePage = () => {
-    const [listCategories, setListCategories] = useState([]);
+const CategoryHomePage = ({listCategories}) => {
 
-    useEffect(() => {
-        const fecthListCategories = async () => {
-            try {
-                const { data: categories } = await categoryApi.getAll();
-                setListCategories(categories);
-            } catch (error) {
-                console.log("Failed to get data", error);
-            }
-        }
-        fecthListCategories();
-    }, []);
     return (
         <div className="flex   px-32">
-            {listCategories.map((cate,index) => {
+            {listCategories.slice(0,3).map((cate,index) => {
                 const [ one ,two, three ] = cate.name.split(" ");
                 if(index===1){
                     return (
-                        <div className="flex-1 relative mx-2" key={cate.id}>
+                        <div className="flex-1 relative mx-2" key={cate._id}>
                             <div className="w-full ">
-                                <img src={cate.image} className="w-full" alt="" />
+                                <img src={`http://localhost:4000/api/category/image/${cate._id}`}  className="w-full" alt="" />
                             </div>
                             <div className="absolute bottom-5 left-24 text-center">
                                 <p className="text-black text-2xl font-semibold">{cate.name}</p>
@@ -34,9 +21,9 @@ const CategoryHomePage = () => {
                     )
                 }
                 return (
-                    <div className="flex-1 relative mx-2" key={cate.id}>
+                    <div className="flex-1 relative mx-2" key={cate._id}>
                         <div className="w-full ">
-                            <img src={cate.image} className="w-full" alt="" />
+                            <img src={`http://localhost:4000/api/category/image/${cate._id}`}  className="w-full" alt="" />
                         </div>
                         <div className="absolute top-5 left-5">
                             

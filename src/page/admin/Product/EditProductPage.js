@@ -1,60 +1,35 @@
-import React, { useEffect, useState } from 'react'
-import firebase from '../../firebase';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import categoryApi from '../../api/categoryApi'
-const EditProductPage = ({ product, onUpdate, onHadleShowList }) => {
+const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const [category, setCategory] = useState([]);
 
-
-    useEffect(() => {
-        const fetchCategory = async () => {
-            try {
-                const { data: category } = await categoryApi.getAll();
-                setCategory(category);
-            } catch (error) {
-                console.log("Failed to get data", error);
-            }
-        }
-        fetchCategory();
-    }, []);
     const onHandleSubmit = (data) => {
-        console.log(data.status);
-        console.log(Boolean(data.status));
-        return;
-        const image_product = data.imageNew[0];
-        if (image_product) {
+        let product = new FormData();
 
-            let storageRef = firebase.storage().ref(`images/${image_product.name}`);
-            storageRef.put(image_product).then(function () {
-                storageRef.getDownloadURL().then(async (url) => {
-                    const productUpdate = {
-                        ...product,
-                        name: data.name,
-                        image: url,
-                        quantity: data.quantity,
-                        price: data.price,
-                        cate_id: data.cate_id,
-                        status: Boolean(data.status),
-                        description: data.description
-                    }
-                    onUpdate(productUpdate);
-                })
-            })
+        if (data.imageNew.length === 0) {
+            product.append('_id',data._id);
+            product.append('name', data.name);
+            product.append('description', data.description);
+            product.append('price', data.price);
+            product.append('quantity', data.quantity);
+            product.append('image', data.imageOld[0]);
+            product.append('status', data.status);
+            product.append('category', data.category);
+            const fakeProduct = { ...data, image: data.imageOld[0] }
+            onUpdate(product, fakeProduct);
+
         } else {
-            const productUpdate = {
-                ...product,
-                name: data.name,
-                image: data.imageOld,
-                quantity: data.quantity,
-                price: data.price,
-                cate_id: data.cate_id,
-                status: Boolean(data.status),
-                description: data.description
-            }
-            onUpdate(productUpdate);
+            product.append('_id',data._id);
+            product.append('name', data.name);
+            product.append('description', data.description);
+            product.append('price', data.price);
+            product.append('quantity', data.quantity);
+            product.append('image', data.imageNew[0]);
+            product.append('status', data.status);
+            product.append('category', data.category);
+            const fakeProduct = { ...data, image: data.imageNew[0] }
+            onUpdate(product, fakeProduct);
         }
-
     }
     return (
         <div className="relative bg-gray-100">
@@ -71,7 +46,7 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList }) => {
                                             <div className="col-span-6 sm:col-span-3 lg:col-span-2">
                                                 <label className="block text-sm font-medium text-gray-700">Name</label>
                                                 <div className="relative">
-
+                                                    <input type="hidden" {...register("_id")} defaultValue={product._id} />
                                                     <input
                                                         type="text"
                                                         name="name"
@@ -87,7 +62,7 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList }) => {
                                             <div className="col-span-6 ">
                                                 <label className="block text-sm font-medium text-gray-700">Image </label>
                                                 <div className="bg-cover bg-center w-40 h-40" >
-                                                    <img src={product.image} className="w-full h-full" />
+                                                    <img src={`http://localhost:4000/api/product/image/${product._id}`} className="w-full h-full" alt="" />
                                                 </div>
                                                 <input type="hidden" value={product.image} {...register("imageOld")} />
                                                 <div className="relative">
@@ -174,28 +149,28 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList }) => {
                                                 <label className="block text-sm font-medium text-gray-700">Status</label>
                                                 <div id="status">
                                                     <input type="radio" name="status" {...register("status")} defaultValue={true} {...product.status ? 'checked' : ''} /> Stocking
-                                                    <input type="radio" name="status" {...register("status")}  defaultValue={false} /> Out of stock
-                                                </div> 
-                                            </div>
+                                                    <input type="radio" name="status" {...register("status")} defaultValue={false} /> Out of stock
                                                 </div>
                                             </div>
-                                            <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                                                <button
-
-                                                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500  focus:outline-none  mr-5" onClick={() => onHadleShowList(false)} > Exit </button>
-                                                <button
-                                                    type="submit"
-                                                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" > Save </button>
-                                            </div>
                                         </div>
+                                    </div>
+                                    <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                                        <button
+
+                                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500  focus:outline-none  mr-5" onClick={() => onHadleShowList(false)} > Exit </button>
+                                        <button
+                                            type="submit"
+                                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" > Save </button>
+                                    </div>
+                                </div>
 
                             </form>
 
-                                </div>
-                    </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
     )
 }
 

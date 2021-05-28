@@ -1,15 +1,15 @@
-import React , { useState , useEffect} from 'react'
-import categoryApi from '../../api/categoryApi'
-import List from './List'
+import React, { useEffect, useState } from 'react'
+import categoryApi from '../../../api/categoryApi'
 import AddCategoryPage from './AddCategoryPage'
 import EditProductPage from './EditCategoryPage'
-import Navigation from '../../components/Layout/Navigation'
+import List from './List'
 const CategoryPage = () => {
 
     const [listCategories , setListCategories ] = useState([]);
     const [showAddForm, setShowAddForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
     const [updateCategory,setUpdateCategory] = useState();
+
     // get category api
     useEffect(()=>{
         const fetchCategory = async ()=>{
@@ -29,7 +29,7 @@ const CategoryPage = () => {
             try{
                 categoryApi.remove(id);
                 alert('Xóa danh mục thành công !');
-                const findIndexById = listCategories.findIndex(cate => cate.id === id);
+                const findIndexById = listCategories.findIndex(cate => cate._id === id);
                 if (findIndexById !== -1) {
                     const newListCategories = [...listCategories];
                     newListCategories.splice(findIndexById, 1);
@@ -43,6 +43,7 @@ const CategoryPage = () => {
     }
     //add category
     const onAddCategory = async(category)=>{
+
         try {
             await categoryApi.add(category);
             setListCategories([
@@ -57,7 +58,8 @@ const CategoryPage = () => {
     }
     //show list
     const onHadleShowList =(status)=>{
-        setShowAddForm(status)
+        setShowAddForm(status);
+        setShowEditForm(status);
     }
     //show edit
     const onHandleShowEdit =(status,cate)=>{
@@ -65,14 +67,17 @@ const CategoryPage = () => {
         setUpdateCategory(cate);
     }
     //edit
-    const onHandleUpdate = async(category)=>{
+    const onHandleUpdate = async(category,fakeCate)=>{
+        // console.log(category);
+        // console.log(fakeCate);
+        // return;
         try {
-            await categoryApi.update(category.id,category);
+            await categoryApi.update(fakeCate._id,category);
 
-            const findIndexProduct = listCategories.findIndex(ele=>ele.id===category.id);
+            const findIndexProduct = listCategories.findIndex(ele=>ele._id===fakeCate._id);
             
             const newListCategories = [ ...listCategories];
-            newListCategories.splice(findIndexProduct,1,category);
+            newListCategories.splice(findIndexProduct,1,fakeCate);
             setListCategories(newListCategories);
             
             setShowEditForm(false);
@@ -81,6 +86,7 @@ const CategoryPage = () => {
             alert('Upadte danh mục thất bại !')
         }
     }
+
     if(showAddForm===true){
         return (
             <AddCategoryPage onSubmit={onAddCategory} onHadleShowList={onHadleShowList} />
@@ -88,14 +94,14 @@ const CategoryPage = () => {
     }
     else if(showEditForm===true){
         return (
-            <EditProductPage category={updateCategory} onUpdate={onHandleUpdate} />
+            <EditProductPage category={updateCategory} onUpdate={onHandleUpdate} onHadleShowList={onHadleShowList}  />
         )
     }else{
         return (
-            <div className="px-32 mt-10">
-                <Navigation />
-                <button className="px-3 py-2 bg-blue-400 text-white outline:none focus:outline-none" onClick={()=>setShowAddForm(true)}  >Add Category</button>
+            <div >
+                <button className="px-3 py-2 bg-blue-400 text-white outline:none focus:outline-none m-3" onClick={()=>setShowAddForm(true)}  >Add Category</button>
                 <List listCategories={listCategories} removeCategory={removeCategory} showEditForm={onHandleShowEdit} />
+                
             </div>
         )
     }

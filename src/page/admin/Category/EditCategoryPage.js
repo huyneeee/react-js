@@ -1,34 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import firebase from '../../firebase';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 const EditProductPage = ({ category, onUpdate, onHadleShowList }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-
+    console.log(category);
+    // const imageOld = {type:category.image.contentType,size:100000}
+    // console.log(imageOld);
+    
     const onHandleSubmit = (data) => {
-        const image_category = data.imageNew[0];
-        if (image_category) {
-
-            let storageRef = firebase.storage().ref(`images/${image_category.name}`);
-            storageRef.put(image_category).then(function () {
-                storageRef.getDownloadURL().then(async (url) => {
-                    const categoryUpdate = {
-                        ...category,
-                        name: data.name,
-                        image: url,
-                        description: data.description
-                    }
-                    onUpdate(categoryUpdate);
-                })
-            })
-        } else {
-            const categoryUpdate = {
-                ...category,
-                name: data.name,
-                image: data.imageOld,
-                description: data.description
+            // console.log(data.imageNew[0]);
+            // return;
+        
+            let category = new FormData();
+            if(data.imageNew.length===0){
+                category.append('name',data.name);
+                category.append('description',data.description);
+                category.append('image',data.imageOld);
+                const fakeCate = {...data, image:data.imageOld};
+                onUpdate(category,fakeCate);
+            }else{
+                console.log('imagenew');
+                category.append('_id',data._id);
+                category.append('name',data.name);
+                category.append('description',data.description);
+                category.append('image',data.imageNew[0]);
+                const fakeCate = {...data, image:data.imageNew};
+                onUpdate(category,fakeCate);
             }
-            onUpdate(categoryUpdate);
-        }
 
     }
     return (
@@ -46,7 +43,7 @@ const EditProductPage = ({ category, onUpdate, onHadleShowList }) => {
                                             <div className="col-span-6 sm:col-span-3 lg:col-span-2">
                                                 <label className="block text-sm font-medium text-gray-700">Name</label>
                                                 <div className="relative">
-
+                                                    <input type="hidden" {...register("_id")} defaultValue={category._id} />
                                                     <input
                                                         type="text"
                                                         name="name"
@@ -62,7 +59,7 @@ const EditProductPage = ({ category, onUpdate, onHadleShowList }) => {
                                             <div className="col-span-6 ">
                                                 <label className="block text-sm font-medium text-gray-700">Image </label>
                                                 <div className="bg-cover bg-center w-40 h-40" >
-                                                    <img src={category.image} className="w-full h-full" />
+                                                    <img src={`http://localhost:4000/api/category/image/${category._id}`} className="w-full h-full" alt="" />
                                                 </div>
                                                 <input type="hidden" value={category.image} {...register("imageOld")} />
                                                 <div className="relative">
@@ -97,8 +94,7 @@ const EditProductPage = ({ category, onUpdate, onHadleShowList }) => {
                                         </div>
                                     </div>
                                     <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                                        <button
-
+                                    <button
                                             className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500  focus:outline-none  mr-5" onClick={() => onHadleShowList(false)} > Exit </button>
                                         <button
                                             type="submit"

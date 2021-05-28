@@ -11,13 +11,16 @@ const Navigation = () => {
             </div>
             <ul className="justify-between flex uppercase text-sm font-semibold">
                 <li className="p-3 "><Link to="/" className="text-gray-800 tracking-widest">Home</Link></li>
-                <li className="p-3 "><Link to="/todolist" className="text-gray-800 tracking-widest">Todo List</Link></li>
-                <li className="p-3 "><Link to="/products" className="text-gray-800 tracking-widest">Products</Link></li>
-                <li className="p-3 "><Link to="/category" className="text-gray-800 tracking-widest">Category</Link></li>
+                <li className="p-3 "><Link to="/shop" className="text-gray-800 tracking-widest">Shop</Link></li>
+                <li className="p-3 "><Link to="/blog" className="text-gray-800 tracking-widest">Blog</Link></li>
+                <li className="p-3 "><Link to="/about" className="text-gray-800 tracking-widest">About</Link></li>
+                <li className="p-3 "><Link to="/contact" className="text-gray-800 tracking-widest">Contact</Link></li>
+  
             </ul>
             <div className=" flex text-2xl">
                     <BsSearch className="mr-5" />
-                    <FaRegUser className="mr-5" />
+                    <Link to="/admin/dashboard" className="text-gray-800 tracking-widest mr-5"><FaRegUser  /></Link>
+                    
                     <GiShoppingCart />
             </div>
         </div> 

@@ -1,20 +1,17 @@
-import React from 'react'
-import Banner from '../../components/Layout/Banner'
-import Navigation from '../../components/Layout/Navigation';
-import ServiceItem from '../../components/ServiceItem';
-import PopularProduct from '../../components/PopularProduct';
-import LastesBlog from '../../components/LatestBlog';
-import Footer from '../../components/Layout/Footer';
-import CategoryHomePage from '../../components/CategoryHomePage';
-const HomePage = () => {
+import React from 'react';
+import CategoryHomePage from '../../../components/CategoryHomePage';
+import LastesBlog from '../../../components/LatestBlog';
+import Banner from '../../../components/Layout/Banner';
+import PopularProduct from '../../../components/PopularProduct';
+import ServiceItem from '../../../components/ServiceItem';
+const HomePage = ({listProducts,listCategories,listBlog}) => {
     return (
         <div>
-            <Navigation />
             <Banner />
             <ServiceItem />
 
-            <CategoryHomePage />
-            <PopularProduct />
+            <CategoryHomePage listCategories={listCategories} />
+            <PopularProduct listProducts={listProducts} />
             {/* banner  */}
             <div className="bg-red-200 flex h-96 ">
                 <div className="bg-fixed h-full w-full flex flex-col justify-center items-center" style={{ backgroundImage: `url(https://demo.codezeel.com/opencart/OPC05/OPC050120/image/catalog/testimonial_parallax.jpg)` }}>
@@ -31,8 +28,7 @@ const HomePage = () => {
                 </div>
 
             </div>
-            <LastesBlog />
-            <Footer />
+            <LastesBlog listBlog={listBlog} />
         </div>
     )
 }

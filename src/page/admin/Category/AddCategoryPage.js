@@ -1,7 +1,6 @@
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import firebase from '../../firebase';
 
 const AddProductPage = ({ onSubmit, onHadleShowList }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -9,21 +8,13 @@ const AddProductPage = ({ onSubmit, onHadleShowList }) => {
 
     const onHandleSubmit = (data) => {
 
-        const image_category = data.image[0];
+        let category = new FormData();
 
-        let storageRef = firebase.storage().ref(`images/${image_category.name}`);
-        storageRef.put(image_category).then(function () {
-            storageRef.getDownloadURL().then(async (url) => {
-                const product = {
-                    ...data,
-                    id: Math.floor(Math.random() * 1000),
-                    image: url
+        category.append('name',data.name);
+        category.append('image',data.image[0]);
+        category.append('description',data.description);
 
-                }
-                onSubmit(product);
-            })
-        })
-
+        onSubmit(category);
 
     }
     return (

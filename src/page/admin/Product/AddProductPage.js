@@ -1,44 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import categoryApi from '../../api/categoryApi';
-import firebase from '../../firebase';
-
-const AddProductPage = ({onSubmit,onHadleShowList}) => {
+const AddProductPage = ({onSubmit,onHadleShowList,category}) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const [category, setCategory] = useState([]);
 
-    // get category api
-    useEffect(() => {
-        const fetchCategory = async () => {
-            try {
-                const { data: category } = await categoryApi.getAll();
-                setCategory(category);
-            } catch (error) {
-                console.log("Failed to get data", error);
-            }
-        }
-        fetchCategory();
-    }, []);
     const onHandleSubmit = (data) => {
-
-        const image_product = data.image[0];
-
-            let storageRef = firebase.storage().ref(`images/${image_product.name}`);
-            storageRef.put(image_product).then(function () {
-                storageRef.getDownloadURL().then(async (url) => {
-                    const product = {
-                        ...data,
-                        id: Math.floor(Math.random() * 1000),
-                        image: url,
-                        status: true
-    
-                    }
-                    onSubmit(product);
-                })
-            })
+        let product = new FormData();
+        product.append('name',data.name);
+        product.append('description',data.description);
+        product.append('price',data.price);
+        product.append('quantity',data.quantity);
+        product.append('image',data.image[0]);
+        product.append('status',true);
+        product.append('category',data.category);
+        const fakeProduct = { ...data , status:true , image:data.image[0]}
+        onSubmit(product,fakeProduct);
         
-
     }
     return (
         <div className="relative bg-gray-100">
@@ -130,10 +107,10 @@ const AddProductPage = ({onSubmit,onHadleShowList}) => {
                                                                 return (
                                                                     <option 
                                                                     key={index}
-                                                                    value={c.id} 
-                                                                    {...register("cate_id", { required: true })} 
+                                                                    value={c._id} 
+                                                                    {...register("category", { required: true })} 
                                                                      >
-                                                                        {c.id}
+                                                                        {c.name}
                                                                     </option>
                                                                 )
                                                             })
@@ -142,7 +119,7 @@ const AddProductPage = ({onSubmit,onHadleShowList}) => {
 
 
                                                     </select>
-                                                    {errors.cate_id && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
+                                                    {errors.categgory && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
                                                 </div>
                                             </div>
                                         </div>

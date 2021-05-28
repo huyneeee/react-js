@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Modal from 'react-modal'
-import productApi from '../../api/productApi'
-import Navigation from '../../components/Layout/Navigation'
+import productApi from '../../../api/productApi'
+import categoryApi from '../../../api/categoryApi';
 import AddProductPage from './AddProductPage'
 import EditProductPage from './EditProductPage'
 import List from './List'
@@ -9,6 +9,8 @@ Modal.setAppElement('#root');
 const ProductsPage = () => {
 
     const [listProducts, setListProducts] = useState([]);
+    const [category, setCategory] = useState([]);
+
     const [showAddForm, setShowAddForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
     const [updateProduct,setUpdateProduct] = useState();
@@ -24,13 +26,24 @@ const ProductsPage = () => {
         fecthListProduct();
     }, []);
 
-    const onAddProduct = async (product) => {
-
+    // get category api
+    useEffect(() => {
+        const fetchCategory = async () => {
+            try {
+                const { data: category } = await categoryApi.getAll();
+                setCategory(category);
+            } catch (error) {
+                console.log("Failed to get data", error);
+            }
+        }
+        fetchCategory();
+    }, []);
+    const onAddProduct = async (product,fakeProduct) => {
         try {
             await productApi.add(product);
             setListProducts([
                 ...listProducts,
-                product
+                fakeProduct
             ])
             setShowAddForm(false);
             alert('Thêm sản phẩm thành công !');
@@ -46,7 +59,7 @@ const ProductsPage = () => {
             try {
                 productApi.remove(idProduct);
                 alert('Xóa sản phẩm thành công !');
-                const findIndexById = listProducts.findIndex(pro => pro.id === idProduct);
+                const findIndexById = listProducts.findIndex(pro => pro._id === idProduct);
                 if (findIndexById !== -1) {
                     const newListProducts = [...listProducts];
                     newListProducts.splice(findIndexById, 1);
@@ -69,14 +82,14 @@ const ProductsPage = () => {
         setShowAddForm(status);
         setShowEditForm(status);
     }
-    const onUpdateProduct = async (product)=>{
+    const onUpdateProduct = async (product,fakeProduct)=>{
         try {
-            await productApi.update(product.id,product);
+            await productApi.update(fakeProduct._id,product);
 
-            const findIndexProduct = listProducts.findIndex(ele=>ele.id===product.id);
+            const findIndexProduct = listProducts.findIndex(ele=>ele._id===fakeProduct._id);
             
             const newListProducts = [ ...listProducts];
-            newListProducts.splice(findIndexProduct,1,product);
+            newListProducts.splice(findIndexProduct,1,fakeProduct);
             setListProducts(newListProducts);
             
             setShowEditForm(false);
@@ -89,17 +102,16 @@ const ProductsPage = () => {
 
     if(showAddForm===true){
         return (
-            <AddProductPage onSubmit={onAddProduct} onHadleShowList={onHadleShowList} />
+            <AddProductPage onSubmit={onAddProduct} onHadleShowList={onHadleShowList} category={category}/>
         )
     }else if(showEditForm===true){
         return (
-            <EditProductPage product={updateProduct} onUpdate={onUpdateProduct} onHadleShowList={onHadleShowList}  />
+            <EditProductPage product={updateProduct} onUpdate={onUpdateProduct} onHadleShowList={onHadleShowList} category={category}  />
         )
     }else{
         return (
-            <div className="px-32 mt-10">
-            <Navigation />
-            <button className="px-3 py-2 bg-blue-400 text-white outline:none focus:outline-none" onClick={()=>setShowAddForm(true)}  >Add Product</button>
+            <div >
+            <button className="px-3 py-2 bg-blue-400 text-white outline:none focus:outline-none m-3" onClick={()=>setShowAddForm(true)}  >Add Product</button>
             <List listProducts={listProducts} removeProduct={removeProduct} showEditForm={onHadleShowEdit} />
             </div>
         )

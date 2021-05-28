@@ -1,22 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { Link } from 'react-router-dom'
-import productApi from '../../api/productApi'
-import categoryApi from '../../api/categoryApi'
-import Navigation from '../../components/Layout/Navigation'
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import categoryApi from '../../../api/categoryApi'
+import productApi from '../../../api/productApi'
 const ProductDetail = () => {
     const { id } = useParams();
-
     const [product, setProduct] = useState({});
 
     useEffect(() => {
         const detailProduct = async () => {
             try {
                 const { data: detailProduct } = await productApi.getOne(id);
-                const { data: category} = await categoryApi.getOne(detailProduct.cate_id);
+                const { data: category } = await categoryApi.getOne(detailProduct.category);
                 const catename = category.name;
-                const product = {...detailProduct,catename};
-               
+                const product = { ...detailProduct, catename };
+
                 setProduct(product);
             } catch (error) {
                 console.log("Failed to get data", error);
@@ -27,11 +24,13 @@ const ProductDetail = () => {
 
     return (
         <div>
-            <Navigation />
-            <div className="flex w-full px-24 " style={{ height: '600px' }}>
+            <div className="bg-gray-100 w-screen h-32 flex justify-center items-center">
+                <Link to='/' className="font-semibold text-md ">Home </Link> / {product.name}
+            </div>
+            <div className="flex w-full px-24 mt-20 " style={{ height: '600px' }}>
                 <div className="w-2/5 h-auto flex justify-center ">
                     <div className="bg-gray-400 h-2/3 w-3/4 ">
-                        <img src={product.image} className="h-full w-full" alt="" />
+                        <img src={`http://localhost:4000/api/product/image/${product._id}`} className="h-full w-full" alt="" />
                     </div>
                 </div>
                 <div className="w-3/5  h-auto tracking-widest">
@@ -58,11 +57,11 @@ const ProductDetail = () => {
                                 <button className="border-b-2 border-black font-bold  text-sm add-to-cart focus:outline-none" data-id={product.id}>ADD TO CARD</button>
                             </div>
                             <div className="flex justify-center">
-                                <Link href className="text-gray-500 mr-6 uppercase text-sm"><i className="fab fa-behance" /></Link>
-                                <Link href className="text-gray-500 mr-6 uppercase text-sm"><i className="fab fa-facebook-f" /></Link>
-                                <Link href className="text-gray-500 mr-6 uppercase text-sm"><i className="fab fa-google" /></Link>
-                                <Link href className="text-gray-500 uppercase mr-6 text-sm"><i className="fab fa-twitter" /></Link>
-                                <Link href className="text-gray-500 uppercase text-sm"><i className="fab fa-instagram" /></Link>
+                                <Link to='' className="text-gray-500 mr-6 uppercase text-sm"><i className="fab fa-behance" /></Link>
+                                <Link to='' className="text-gray-500 mr-6 uppercase text-sm"><i className="fab fa-facebook-f" /></Link>
+                                <Link to='' className="text-gray-500 mr-6 uppercase text-sm"><i className="fab fa-google" /></Link>
+                                <Link to='' className="text-gray-500 uppercase mr-6 text-sm"><i className="fab fa-twitter" /></Link>
+                                <Link to='' className="text-gray-500 uppercase text-sm"><i className="fab fa-instagram" /></Link>
                             </div>
                         </div>
                     </div>

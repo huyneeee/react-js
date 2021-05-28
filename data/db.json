@@ -37,16 +37,6 @@
       "image": "https://demo.codezeel.com/opencart/OPC05/OPC050120/image/cache/catalog/12-616x800.jpg",
       "status": true,
       "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita maxime aut sit dolores facere voluptas architecto, ad fuga amet, recusandae unde? Saepe eaque quidem architecto exercitationem beatae corporis odio aspernatur."
-    },
-    {
-      "name": "Laudant Doloremque",
-      "cate_id": 974,
-      "image": "https://firebasestorage.googleapis.com/v0/b/shop-ff2b2.appspot.com/o/images%2F08-616x800.jpg?alt=media&token=11639ddf-e51e-4c6c-ac37-e62a2dbe54dc",
-      "quantity": "29",
-      "price": 92,
-      "description": "The D300unctions in the D300. For example, the camera can track moving subjects better and by identifying them, it can also automatically select focus points faster and with greater accuracy. It can also analyze highlights and more accurately determine exposure, as well as infer light sources to deliver more accurate white balance detection.",
-      "status": true,
-      "id": 657
     }
   ],
   "categories": [
@@ -67,6 +57,12 @@
       "name": "Cactus Pot Flower",
       "image": "https://demo.codezeel.com/opencart/OPC05/OPC050120/image/catalog/sub-banner-3.jpg",
       "description": "Example of category description text"
+    },
+    {
+      "name": "test",
+      "image": "https://firebasestorage.googleapis.com/v0/b/shop-ff2b2.appspot.com/o/images%2Fas.jpg?alt=media&token=538234c7-61c2-40f7-8c83-df12c1d1e6ad",
+      "description": "oki",
+      "id": 270
     }
   ],
   "blogs": [

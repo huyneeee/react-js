@@ -5,7 +5,7 @@ const productApi = {
         return axiosClient.get(url);
     },
     getOne(id){
-        const url = `/products/${id}`;
+        const url = `/product/${id}`;
         return axiosClient.get(url);
     },
     add(product){
@@ -13,11 +13,11 @@ const productApi = {
         return axiosClient.post(url, product);
     },
     remove(id){
-        const url = `/products/${id}`;
+        const url = `/product/${id}`;
         return axiosClient.delete(url)
     },
     update(id,product){
-        const url = `/products/${id}`;
+        const url = `/product/${id}`;
         return axiosClient.put(url,product);
     }
 }
