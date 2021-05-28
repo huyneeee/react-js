@@ -19,7 +19,7 @@ const BlogAdminPage = () => {
     }
     const onHandleSubmit = (blog) => {
         if(dispatch(addBlog(blog))){
-            alert('Thêm blog thành công!');
+            // alert('Thêm blog thành công!');
             setShowAddForm(false);
         }
    

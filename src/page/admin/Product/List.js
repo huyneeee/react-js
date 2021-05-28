@@ -46,7 +46,7 @@ const List = ({ listProducts, removeProduct,showEditForm  }) => {
                 <tbody>
                     {listProducts.map((product, index) =>
 
-                        <tr className="text-left" key={product._id}>
+                        <tr className="text-left" key={index}>
 
                             <th
                                 className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 ">

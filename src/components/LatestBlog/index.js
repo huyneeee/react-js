@@ -31,7 +31,7 @@ const LastesBlog = () => {
 
                                             <div className="flex items-center mb-2">
                                                 <MdDateRange className="text-lg" />
-                                                <p className="font-semibold tracking-wider">{blog.date}</p>
+                                                <p className="font-semibold tracking-wider">{blog.createdAt.slice(0,10)}</p>
                                             </div>
 
                                             <Link className="text-md font-semibold " to={`/blog/${blog._id}`} >{blog.name}</Link>

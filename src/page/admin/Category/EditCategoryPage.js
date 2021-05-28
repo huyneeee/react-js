@@ -2,19 +2,13 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 const EditProductPage = ({ category, onUpdate, onHadleShowList }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    console.log(category);
-    // const imageOld = {type:category.image.contentType,size:100000}
-    // console.log(imageOld);
     
     const onHandleSubmit = (data) => {
-            // console.log(data.imageNew[0]);
-            // return;
-        
             let category = new FormData();
             if(data.imageNew.length===0){
+                console.log('imageOld');
                 category.append('name',data.name);
                 category.append('description',data.description);
-                category.append('image',data.imageOld);
                 const fakeCate = {...data, image:data.imageOld};
                 onUpdate(category,fakeCate);
             }else{
@@ -48,7 +42,7 @@ const EditProductPage = ({ category, onUpdate, onHadleShowList }) => {
                                                         type="text"
                                                         name="name"
                                                         className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                        {...register("name", { required: true, pattern: /^[A-Za-z ]+$/i })}
+                                                        {...register("name", { required: true, pattern: /^[A-Za-z0-9 ]+$/i })}
                                                         defaultValue={category.name}
                                                     />
                                                     {errors.name && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}

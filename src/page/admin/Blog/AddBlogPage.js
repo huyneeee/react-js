@@ -1,32 +1,15 @@
 
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import firebase from '../../../firebase';
-import { v4 as uuidv4 } from 'uuid';
 const AddBlogPage = ({ onSubmit, onHadleShowList }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    
- 
     const onHandleSubmit = (data) => {
-
-
-        const image_blog = data.image[0];
-        const date = new Date();
-        let storageRef = firebase.storage().ref(`images/${image_blog.name}`);
-        storageRef.put(image_blog).then(function () {
-            storageRef.getDownloadURL().then(async (url) => {
-                const blog = {
-                    ...data,
-                    id: uuidv4(),
-                    image: url,
-                    date:date.toDateString()
-                }
-                onSubmit(blog);
-            })
-        })
-
-
+        let blog = new FormData();
+        blog.append('name',data.name);
+        blog.append('image',data.image[0]);
+        blog.append('content',data.content);
+        onSubmit(blog);
     }
     return (
             <div className=" w-full h-full">

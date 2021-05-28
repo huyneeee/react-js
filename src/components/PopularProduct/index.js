@@ -22,7 +22,7 @@ const PopularProduct = ({listProducts}) => {
                         <p className="font-extrabold text-md transform" >${product.price}</p>
                     </div>
                     <div className="absolute top-3 right-3">
-                    <p className="text-sm font-semibold">20% Off</p>
+                    {/* <p className="text-sm font-semibold">20% Off</p> */}
                 </div>
                 </div>
                 )

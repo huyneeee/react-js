@@ -83,6 +83,7 @@ const ProductsPage = () => {
         setShowEditForm(status);
     }
     const onUpdateProduct = async (product,fakeProduct)=>{
+ 
         try {
             await productApi.update(fakeProduct._id,product);
 

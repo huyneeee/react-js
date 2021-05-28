@@ -68,9 +68,7 @@ const CategoryPage = () => {
     }
     //edit
     const onHandleUpdate = async(category,fakeCate)=>{
-        // console.log(category);
-        // console.log(fakeCate);
-        // return;
+
         try {
             await categoryApi.update(fakeCate._id,category);
 

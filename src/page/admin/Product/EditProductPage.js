@@ -7,19 +7,15 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
         let product = new FormData();
 
         if (data.imageNew.length === 0) {
-            product.append('_id',data._id);
             product.append('name', data.name);
             product.append('description', data.description);
             product.append('price', data.price);
             product.append('quantity', data.quantity);
-            product.append('image', data.imageOld[0]);
             product.append('status', data.status);
             product.append('category', data.category);
-            const fakeProduct = { ...data, image: data.imageOld[0] }
+            const fakeProduct = { ...data, image: data.imageOld}
             onUpdate(product, fakeProduct);
-
         } else {
-            product.append('_id',data._id);
             product.append('name', data.name);
             product.append('description', data.description);
             product.append('price', data.price);
@@ -27,13 +23,13 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
             product.append('image', data.imageNew[0]);
             product.append('status', data.status);
             product.append('category', data.category);
-            const fakeProduct = { ...data, image: data.imageNew[0] }
+            const fakeProduct = { ...data, image: data.imageNew[0]}
             onUpdate(product, fakeProduct);
         }
     }
     return (
         <div className="relative bg-gray-100">
-            <div className="px-4 md:px-10 mx-auto w-full h-full">
+            <div className=" w-full h-full">
                 <div className="flex flex-wrap">
                     <div className="w-full xl:w-12/12 mb-12 xl:mb-0 px-4 mt-8">
                         <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ">
@@ -49,9 +45,8 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
                                                     <input type="hidden" {...register("_id")} defaultValue={product._id} />
                                                     <input
                                                         type="text"
-                                                        name="name"
                                                         className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                        {...register("name", { required: true, pattern: /^[A-Za-z ]+$/i })}
+                                                        {...register("name", { required: true, pattern: /^[A-Za-z0-9 ]+$/i })}
                                                         defaultValue={product.name}
                                                     />
                                                     {errors.name && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
@@ -80,7 +75,6 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
                                                 <div className="relative">
                                                     <input
                                                         type="number"
-                                                        name="quantity"
                                                         className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                         {...register("quantity", { required: true })}
                                                         defaultValue={product.quantity}
@@ -96,7 +90,6 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
 
                                                     <input
                                                         type="number"
-                                                        name="price"
                                                         className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                         {...register("price", { required: true })}
                                                         defaultValue={product.price}
@@ -112,7 +105,6 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
                                                     <textarea
                                                         id="description" cols={30} rows={5}
                                                         className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                        name="description"
                                                         {...register("description", { required: true })}
                                                         defaultValue={product.description}
                                                     />
@@ -124,15 +116,16 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
                                             <div className="col-span-6 sm:col-span-3 ">
                                                 <label className="block text-sm font-medium text-gray-700">Category</label>
                                                 <div className="relative">
-                                                    <select id="cate_id" className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                    <select className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
                                                         {
-                                                            category.map((cate) => {
+                                                            category.map((cate,index) => {
                                                                 return (
                                                                     <option
-                                                                        key={cate.id}
-                                                                        {...register("cate_id", { required: true })}
-                                                                        value={cate.id} >
+                                                                        
+                                                                        key={index}
+                                                                        {...register("category", { required: true })}
+                                                                        value={cate._id} >
                                                                         {cate.name}
                                                                     </option>
                                                                 )
@@ -147,9 +140,9 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
                                             </div>
                                             <div className="col-span-6 sm:col-span-3">
                                                 <label className="block text-sm font-medium text-gray-700">Status</label>
-                                                <div id="status">
-                                                    <input type="radio" name="status" {...register("status")} defaultValue={true} {...product.status ? 'checked' : ''} /> Stocking
-                                                    <input type="radio" name="status" {...register("status")} defaultValue={false} /> Out of stock
+                                                <div >
+                                                    <input type="radio"  {...register("status")} defaultValue={true} checked /> Stocking
+                                                    <input type="radio"  {...register("status")} defaultValue={false} /> Out of stock
                                                 </div>
                                             </div>
                                         </div>
