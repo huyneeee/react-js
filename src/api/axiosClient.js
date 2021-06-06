@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { API } from '../config'
 export const axiosClient = axios.create({
-    baseURL : 'http://localhost:4000/api',
+    baseURL : API,
     headers : {
         'Content-Type': 'multipart/form-data'
     }

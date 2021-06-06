@@ -6,7 +6,6 @@ import Loading from '../Loading'
 const LastesBlog = () => {
     const loading = useSelector(state => state.blog.loading);
     const listBlog = useSelector(state => state.blog.data);
-    // const blogs = listBlog.slice(0, 3);
 
     return (
         <>
@@ -18,7 +17,7 @@ const LastesBlog = () => {
                         <p className="text-3xl font-semibold  text-center">Our Latest Posts</p>
 
                         <div className="grid grid-cols-3 gap-8 mt-6">
-                            {listBlog.map((blog) => {
+                            {listBlog.slice(0,3).map((blog) => {
                                 return (
                                     <div className=" h-auto group overflow-hidden" key={blog._id}>
                                         <div

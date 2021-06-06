@@ -1,25 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 const EditProductPage = ({ category, onUpdate, onHadleShowList }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    
-    const onHandleSubmit = (data) => {
-            let category = new FormData();
-            if(data.imageNew.length===0){
-                console.log('imageOld');
-                category.append('name',data.name);
-                category.append('description',data.description);
-                const fakeCate = {...data, image:data.imageOld};
-                onUpdate(category,fakeCate);
-            }else{
-                console.log('imagenew');
-                category.append('_id',data._id);
-                category.append('name',data.name);
-                category.append('description',data.description);
-                category.append('image',data.imageNew[0]);
-                const fakeCate = {...data, image:data.imageNew};
-                onUpdate(category,fakeCate);
+    const [file, setFile] = useState({ status: false, message: "" });
+    const onHandleFile = (e) => {
+        setFile({ status: false, message: "" });
+        const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/jpg'];
+        if (e.target.files[0]) {
+            if (acceptedImageTypes.includes(e.target.files[0].type) === false) {
+                setFile({ status: true, message: "File tải lên phải có định dạng gif,jpeg,png,jpg!" })
+                if (e.target.files[0].size > 3000000) {
+                    setFile({ status: true, message: "File tải lên tối đa là 3MB!" })
+                }
             }
+        }
+    }
+    const onHandleSubmit = (data) => {
+        let category = new FormData();
+
+        if (data.imageNew.length === 0) {
+            category.append('name', data.name);
+            category.append('description', data.description);
+            onUpdate(category, data._id);
+        } else {
+            category.append('name', data.name);
+            category.append('description', data.description);
+            category.append('image', data.imageNew[0]);
+            if (file.status === false) {
+                onUpdate(category, data._id);
+            }
+
+        }
 
     }
     return (
@@ -60,8 +71,10 @@ const EditProductPage = ({ category, onUpdate, onHadleShowList }) => {
                                                     <input
                                                         type="file"
                                                         className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                        {...register("imageNew", { required: false })} />
-
+                                                        {...register("imageNew")}
+                                                        onChange={(e) => onHandleFile(e)}
+                                                    />
+                                                    {file.status && <span className="text-xs text-red-500 absolute top-3 right-3">{file.message}</span>}
                                                 </div>
                                             </div>
 
@@ -88,7 +101,7 @@ const EditProductPage = ({ category, onUpdate, onHadleShowList }) => {
                                         </div>
                                     </div>
                                     <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                                    <button
+                                        <button
                                             className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500  focus:outline-none  mr-5" onClick={() => onHadleShowList(false)} > Exit </button>
                                         <button
                                             type="submit"

@@ -22,7 +22,7 @@ const blogReducer = (state = initailState, action) => {
                 loading:false
             }
         case 'REMOVE_BLOG' :    
-            const dataRemove = state.data.filter(blog=>blog.id!==action.payload);
+            const dataRemove = state.data.filter(blog=>blog._id!==action.payload);
             return {
                 ...state,
                 data:dataRemove,

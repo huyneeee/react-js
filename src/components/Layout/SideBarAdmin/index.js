@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 const SideBarAdmin = () => {
     return (
@@ -40,21 +40,21 @@ const SideBarAdmin = () => {
       </h6>
                     {/* Navigation */}
                     <ul className="md:flex-col md:min-w-full flex flex-col list-none" id="navigation">
-                        <li className="items-center li my-1 font-semibold hover:text-green-500">
-                        <Link to="/admin/products" >
+                        <li className="items-center li my-1 font-semibold hover:text-main">
+                        <NavLink to="/admin/products" exact activeClassName="text-main active" >
              Products
-    </Link>
+    </NavLink>
                         </li>
-                        <li className="items-center li my-1 font-semibold hover:text-green-500">
-                        <Link to="/admin/categories" >
+                        <li className="items-center li my-1 font-semibold hover:text-main">
+                        <NavLink to="/admin/categories" exact activeClassName="text-main active">
              Categories
-    </Link>
+    </NavLink>
                         </li>
-                        <li className="items-center li my-1 font-semibold hover:text-green-500">
+                        <li className="items-center li my-1 font-semibold hover:text-main">
  
-                            <Link to="/admin/blogs" >
+                            <NavLink to="/admin/blogs"exact activeClassName="text-main active" >
              Blogs
-    </Link>
+    </NavLink>
                         </li>
                     </ul>
                 </div>

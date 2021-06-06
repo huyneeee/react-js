@@ -1,8 +1,12 @@
-import React from 'react';
+import React , {useState }from 'react';
 import { useForm } from 'react-hook-form';
+import Select from 'react-select';
 const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-
+    const [cate, setCate] = useState(product.category);
+    const onHadleCategory = ({ value }) => {
+        setCate(value);
+    }
     const onHandleSubmit = (data) => {
         let product = new FormData();
 
@@ -12,9 +16,8 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
             product.append('price', data.price);
             product.append('quantity', data.quantity);
             product.append('status', data.status);
-            product.append('category', data.category);
-            const fakeProduct = { ...data, image: data.imageOld}
-            onUpdate(product, fakeProduct);
+            product.append('category', cate);
+            onUpdate(product, data._id);
         } else {
             product.append('name', data.name);
             product.append('description', data.description);
@@ -22,9 +25,8 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
             product.append('quantity', data.quantity);
             product.append('image', data.imageNew[0]);
             product.append('status', data.status);
-            product.append('category', data.category);
-            const fakeProduct = { ...data, image: data.imageNew[0]}
-            onUpdate(product, fakeProduct);
+            product.append('category',cate);
+            onUpdate(product, data._id);
         }
     }
     return (
@@ -39,7 +41,7 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
                                 <div className="shadow overflow-hidden sm:rounded-md">
                                     <div className="px-4 py-5 bg-white sm:p-6">
                                         <div className="grid grid-cols-6 gap-6">
-                                            <div className="col-span-6 sm:col-span-3 lg:col-span-2">
+                                            <div className="col-span-6 sm:col-span-3">
                                                 <label className="block text-sm font-medium text-gray-700">Name</label>
                                                 <div className="relative">
                                                     <input type="hidden" {...register("_id")} defaultValue={product._id} />
@@ -52,7 +54,20 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
                                                     {errors.name && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
                                                 </div>
                                             </div>
+                                            <div className="col-span-6 sm:col-span-3">
 
+                                                <label className="block text-sm font-medium text-gray-700">Category</label>
+                                                <div className="relative">
+                                                    <Select
+                                                        className="basic-single "
+                                                        classNamePrefix="select"
+                                                        value={category.find(ele=>ele.value===cate)}
+                                                        onChange={(cate) => onHadleCategory(cate)}
+                                                        options={category}
+                                                    />
+                                                    {errors.categgory && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
+                                                </div>
+                                            </div>
 
                                             <div className="col-span-6 ">
                                                 <label className="block text-sm font-medium text-gray-700">Image </label>
@@ -113,31 +128,7 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
 
                                                 </div>
                                             </div>
-                                            <div className="col-span-6 sm:col-span-3 ">
-                                                <label className="block text-sm font-medium text-gray-700">Category</label>
-                                                <div className="relative">
-                                                    <select className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
-                                                        {
-                                                            category.map((cate,index) => {
-                                                                return (
-                                                                    <option
-                                                                        
-                                                                        key={index}
-                                                                        {...register("category", { required: true })}
-                                                                        value={cate._id} >
-                                                                        {cate.name}
-                                                                    </option>
-                                                                )
-                                                            })
-
-                                                        }
-
-
-                                                    </select>
-                                                    {errors.cate_id && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
-                                                </div>
-                                            </div>
                                             <div className="col-span-6 sm:col-span-3">
                                                 <label className="block text-sm font-medium text-gray-700">Status</label>
                                                 <div >

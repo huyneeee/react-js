@@ -19,16 +19,23 @@ import BlogDetailPage from './page/web/BlogDetailPage';
 import BlogPage from './page/web/BlogPage';
 import ContactPage from './page/web/ContactPage';
 import HomePage from './page/web/Home';
+import LoginPage from './page/web/LoginPage';
+import NotFoundPage from './page/web/NotFoundPage';
 import ProductDetail from './page/web/ProductDetail';
+import RegisterPage from './page/web/RegisterPage';
 import ShopPage from './page/web/ShopPage';
 function App() {
   const [listProducts, setListProducts] = useState([]);
   const [listCategories, setListCategories] = useState([]);
+  const [ user , setUser ] = useState('');
+  const [ pathname , setPathname] = useState('');
   const dispatch = useDispatch();
-  
   useEffect(() => {
       dispatch(fetchData());
   }, []);
+  const onHandlePathname = (url)=>{
+      setPathname(url);
+  }
 
 
   useEffect(() => {
@@ -41,7 +48,7 @@ function App() {
       }
     }
     fecthListProduct();
-  }, []);
+  }, [pathname]);
 
 
   useEffect(() => {
@@ -54,9 +61,11 @@ function App() {
       }
     }
     fecthListCategories();
-  }, []);
+  }, [pathname]);
 
-
+  const onHadleSignIn = (data)=>{
+      setUser(data);
+  }
  
   return (
     <div className="App">
@@ -64,7 +73,7 @@ function App() {
         {/* admin  */}
         <Switch>
           <Route path="/admin">
-            <DashBoardsPage>
+            <DashBoardsPage url={onHandlePathname} >
               <Switch>
                 <Route exact path="/admin/blogs">
                   <BlogAdminPage />
@@ -77,11 +86,10 @@ function App() {
                 </Route>
               </Switch>
             </DashBoardsPage>
-
           </Route>
           {/* website  */}
           <Route>
-            <Website>
+            <Website user={user} url={onHandlePathname}  >
               <Switch>
                 <Route exact path="/">
                   <HomePage listProducts={listProducts} listCategories={listCategories} />
@@ -101,20 +109,24 @@ function App() {
                 <Route path="/shop" exact>
                   <ShopPage listProducts={listProducts} />
                 </Route>
-                <Route exact path="/shop/:id">
-                  <ProductDetail />
+                <Route exact path="/shop/:id" >
+                  <ProductDetail listProducts={listProducts}/>
+                </Route>
+                <Route exact path="/login" >
+                  <LoginPage signIn={onHadleSignIn} />
+                </Route>
+                <Route exact path="/register" >
+                  <RegisterPage />
                 </Route>
                 <Route path="*">
-                  404page
+                  <NotFoundPage />
                 </Route>
               </Switch>
             </Website>
           </Route>
-
         </Switch>
 
       </Router>
-
     </div>
   );
 }

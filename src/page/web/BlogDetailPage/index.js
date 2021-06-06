@@ -16,7 +16,7 @@ const BlogDetailPage = () => {
             }
         }
         detailBlog();
-    }, []);
+    }, [id]);
 
     return (
         <div>

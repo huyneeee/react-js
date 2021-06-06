@@ -16,10 +16,10 @@ export const fetchData = () => async (dispatch) =>{
 }
 export const addBlog = (blog)=>async (dispatch)=>{
     try{
-        await blogApi.add(blog);
+        const { data: blogAdd} = await blogApi.add(blog);
         dispatch({
             type : 'ADD_BLOG',
-            payload:blog
+            payload:blogAdd
         })
     }catch(error){
         console.log(error);

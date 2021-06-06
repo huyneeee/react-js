@@ -1,7 +1,10 @@
 import React from 'react';
+import { useLocation } from 'react-router';
 import SideBarAdmin from '../../components/Layout/SideBarAdmin';
 
-const DashBoardsPage = ({children}) => {
+const DashBoardsPage = ({children,url}) => {
+    const { pathname } = useLocation();
+    url(pathname);
         return (
             <div>
                 <SideBarAdmin />

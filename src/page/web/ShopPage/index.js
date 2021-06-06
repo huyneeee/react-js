@@ -39,18 +39,22 @@ const ShopPage = ({ listProducts }) => {
                     <div className="grid grid-cols-3 gap-4 w-full">
                         {listProducts.map(product => {
                             return (
-                                <div className=" h-auto w-auto group overflow-hidden relative" key={product.id}>
+                                <div className=" h-auto w-auto group overflow-hidden relative" key={product._id}>
                                     <div
                                         className=" w-full h-80 bg-gray-100 flex justify-center items-center "
                                     >
-                                        <img src={product.image} alt="" className="w-40 h-40" />
+                                        <img src={`http://localhost:4000/api/product/image/${product._id}`} alt="" className="w-40 h-40" />
                                     </div>
                                     <div className="text-center mt-5">
-                                        <Link className="text-md font-normal uppercase text-gray-500 " to={`/shop/${product.id}`} >{product.name}</Link>
-                                        <p className="font-extrabold text-md transform" >${product.price}</p>
-                                    </div>
-                                    <div className="absolute top-3 right-3 bg-red-600 px-2 pt-1 text-white">
-                                        <p className="text-sm font-semibold">-20%</p>
+                                        <Link className="text-md font-semibold uppercase text-gray-900 " to={`/shop/${product._id}`} >{product.name}</Link>
+                                        <div className="flex mt-3">
+                                            <div className="flex-1">
+                                                <button className="border-b-2 border-main font-bold text-main  text-sm add-to-cart focus:outline-none transform -translate-x-32 group-hover:translate-x-20 transition-all duration-500">ADD TO CARD</button>
+                                            </div>
+                                            <div className="flex-1">
+                                                <p className="font-extrabold text-md transform -translate-x-16 group-hover:translate-x-40 transition-all duration-500 text-main">$ {product.price}.00</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             )
