@@ -2,7 +2,7 @@ import React from 'react'
 import { AiFillDelete } from 'react-icons/ai'
 import { RiEdit2Fill } from 'react-icons/ri'
 
-const List = ({ listCategories,removeCategory,showEditForm }) => {
+const List = ({ listCategories, removeCategory, showEditForm, user }) => {
 
     return (
         <div>
@@ -21,7 +21,7 @@ const List = ({ listCategories,removeCategory,showEditForm }) => {
                             className="px-6 bg-gray-100 text-gray-600 align-middle border border-solid border-gray-200 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left">
                             Image
             </th>
-                      
+
                         <th
                             className="px-6 bg-gray-100 text-gray-600 align-middle border border-solid border-gray-200 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left">
                             Description
@@ -50,18 +50,27 @@ const List = ({ listCategories,removeCategory,showEditForm }) => {
                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                                 {cate.description}
                             </td>
-                            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                                <RiEdit2Fill 
-                                    className="text-3xl  text-red-600" 
-                                    onClick={() => {
-                                        showEditForm(true,cate);
-                                    }}
-                                />
-                                <AiFillDelete 
-                                className="text-3xl  text-red-600" 
-                                onClick={() => removeCategory(cate._id)} 
-                                />
-                            </td>
+                            {
+                                user.role===1 ? (
+                                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 flex">
+                                        <RiEdit2Fill
+                                            className="text-3xl  text-red-600"
+                                            onClick={() => {
+                                                showEditForm(true, cate);
+                                            }}
+                                        />
+                                        <AiFillDelete
+                                            className="text-3xl  text-red-600"
+                                            onClick={() => removeCategory(cate._id)}
+                                        />
+                                    </td>
+                                ) : (
+                                    <td className="border-t-0 text-red-500 text-xs font-semibold px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                                    Bạn không có quyền !
+                                </td>
+                                )
+                            }
+
                         </tr>
                     )}
 

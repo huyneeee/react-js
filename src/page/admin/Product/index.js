@@ -6,6 +6,7 @@ import AddProductPage from './AddProductPage'
 import EditProductPage from './EditProductPage'
 import List from './List'
 import Loading from '../../../components/Loading';
+import Pagination from '../../../components/Pagination';
 Modal.setAppElement('#root');
 const ProductsPage = () => {
 
@@ -15,19 +16,43 @@ const ProductsPage = () => {
     const [showAddForm, setShowAddForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
     const [updateProduct, setUpdateProduct] = useState();
+    const { user } = JSON.parse(localStorage.getItem('user'))
+
+    const [pagination, setPagination] = useState({
+        _page: 1,
+        _limit: 5,
+        _totalRows: 1
+    });
+    const [filter, setFilter] = useState({
+        _limit: 5,
+        _page: 1
+    })
+    const handlePagechange = (newPage) => {
+        setFilter({
+            ...filter,
+            _page: newPage
+        })
+    }
+
     useEffect(() => {
         setLoading(true);
-        const fecthListProduct = async () => {
+        (async () => {
+            const { _page, _limit } = filter;
             try {
-                const { data: listProduct } = await productApi.getAll();
-                setListProducts(listProduct);
+                const { data: totalRows } = await productApi.countproduct();
+                const { data: response } = await productApi.getProductPaginate(_page, _limit);
                 setLoading(false);
+
+                setListProducts(response.data);
+                setPagination({
+                    ...response.pagination,
+                    _totalRows: totalRows
+                });
             } catch (error) {
                 console.log("Failed to get data", error);
             }
-        }
-        fecthListProduct();
-    }, []);
+        })()
+    }, [filter])
 
     // get category api
     useEffect(() => {
@@ -35,14 +60,8 @@ const ProductsPage = () => {
         const fetchCategory = async () => {
             try {
                 const { data: category } = await categoryApi.getAll();
-               
-                const newCategory = category.map(cate=>{
-                    return {
-                        value:cate._id,
-                        label:cate.name
-                    }
-                });
-                setCategory(newCategory);
+
+                setCategory(category);
                 setLoading(false);
             } catch (error) {
                 console.log("Failed to get data", error);
@@ -52,7 +71,8 @@ const ProductsPage = () => {
     }, []);
     const onAddProduct = async (product) => {
         try {
-            const { data: productFake } = await productApi.add(product);
+            const { user } = JSON.parse(localStorage.getItem('user'))
+            const { data: productFake } = await productApi.add(product, user._id);
             setListProducts([
                 ...listProducts,
                 productFake
@@ -60,7 +80,8 @@ const ProductsPage = () => {
             setShowAddForm(false);
             alert('Thêm sản phẩm thành công !');
         } catch (error) {
-            alert('Thêm sản phẩm thất bại !')
+            alert('Thêm sản phẩm thất bại !');
+            alert(error.response.data.error);
         }
 
     }
@@ -69,7 +90,7 @@ const ProductsPage = () => {
         const isConfirm = window.confirm('Bạn có chắc chắn muốn xóa không ?');
         if (isConfirm) {
             try {
-                productApi.remove(idProduct);
+                await productApi.remove(idProduct, user._id);
                 alert('Xóa sản phẩm thành công !');
                 const findIndexById = listProducts.findIndex(pro => pro._id === idProduct);
                 if (findIndexById !== -1) {
@@ -78,7 +99,7 @@ const ProductsPage = () => {
                     setListProducts(newListProducts);
                 }
             } catch (error) {
-                alert('Lỗi xóa sản phẩm', error);
+                alert(error.response.data.error);
             }
         }
 
@@ -97,18 +118,20 @@ const ProductsPage = () => {
     const onUpdateProduct = async (product, id) => {
 
         try {
-            const { data: productFake } = await productApi.update(id, product);
+            const { data: productFake } = await productApi.update(id, product, user._id);
 
             const findIndexProduct = listProducts.findIndex(ele => ele._id === id);
 
             const newListProducts = [...listProducts];
             newListProducts.splice(findIndexProduct, 1, productFake);
-            setListProducts(newListProducts);
 
+            setListProducts(newListProducts);
+            // setUpdateProduct('');    
             setShowEditForm(false);
             alert('UPDATE sản phẩm thành công !');
         } catch (error) {
-            alert('UPDATE sản phẩm thất bại !')
+            alert('UPDATE sản phẩm thất bại !');
+            alert(error.response.data.error);
         }
 
     }
@@ -127,9 +150,12 @@ const ProductsPage = () => {
                 {loading ? (<Loading />)
                     : (
                         <>
-                        <button className="px-3 py-2 bg-blue-400 text-white outline:none focus:outline-none m-3" onClick={() => setShowAddForm(true)}  >Add Product</button>
-                        <List listProducts={listProducts} removeProduct={removeProduct} showEditForm={onHadleShowEdit} />
-                        </> 
+                            {user.role === 1 && <button className="px-3 py-2 bg-blue-400 text-white outline:none focus:outline-none m-3" onClick={() => setShowAddForm(true)}  >Add Product</button>}
+                            <List listProducts={listProducts} removeProduct={removeProduct} showEditForm={onHadleShowEdit} user={user} />
+                            <div className="mb-5  ">
+                                <Pagination pagination={pagination} onPageChange={handlePagechange} />
+                            </div>
+                        </>
                     )
                 }
 

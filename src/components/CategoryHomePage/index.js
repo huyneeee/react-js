@@ -15,7 +15,7 @@ const CategoryHomePage = ({listCategories}) => {
                             </div>
                             <div className="absolute bottom-5 left-24 text-center">
                                 <p className="text-black text-2xl font-semibold">{cate.name}</p>
-                                <Link className="text-green-800 underline  font-semibold" to="">Shop Now</Link>
+                                <Link className="text-green-800 underline  font-semibold" to={`/shop/category/${cate._id}`}>Shop Now</Link>
                             </div>
                         </div>
                     )
@@ -29,7 +29,7 @@ const CategoryHomePage = ({listCategories}) => {
                             
                             <p className="text-black text-2xl font-semibold ">{one}</p>
                             <p className="text-black text-2xl font-semibold mb-3">{two} {three}</p>
-                            <Link className="text-green-800 underline  font-semibold" to="">Shop Now</Link>
+                            <Link className="text-green-800 underline  font-semibold" to={`/shop/category/${cate._id}`}>Shop Now</Link>
                         </div>
                     </div>
                 )

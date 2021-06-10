@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { signin ,authenticate} from '../../../auth'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom';
+import { authenticate, isAuthenticated, signin } from '../../../auth';
+
 const LoginPage = ({signIn}) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [error, setError] = useState('');
-    const history = useHistory();
+    const [redirectToReferrer, setRedirectToReferrer] = useState(false);
     const onHadleSubmit = (data) => {
         signin(data)
             .then(data => {
@@ -13,8 +14,11 @@ const LoginPage = ({signIn}) => {
                     setError(data);
                 } else {
                     setError('');
-                    signIn(data);
-                    authenticate(data,()=>{history.push('/')});
+                    signIn(data.user);
+                    
+                    authenticate(data,()=>{
+                        setRedirectToReferrer(true);
+                    });
                 }
             })
     }
@@ -66,12 +70,26 @@ const LoginPage = ({signIn}) => {
             </form>
         )
     }
+    const { user } = isAuthenticated();
+    const redirectUser = () => {
+        if (redirectToReferrer) {
+            if (user && user.role === 1) {
+                return <Redirect to="/admin/dashboard" />
+            } else {
+                return <Redirect to="/user/dashboard" />
+            }
+        }
+        if (isAuthenticated()) {
+            return <Redirect to="/" />
+        }
+    }
     return (
         <div>
             <div>
                 <p className="text-gray-900 text-xl font-semibold my-8 text-center ">CUSTOMER LOGIN</p>
                 <div className="login flex flex-col items-center">
                     {signInForm()}
+                    {redirectUser()}
                     <div className="w-2/5 mt-20 text-center mb-10">
                         <p className="text-gray-900 text-xl font-semibold mb-2">NEW CUSTOMERS</p>
                         <p className="text-gray-400 text-md mb-8">Creating an account has many benefits: check out faster, keep more than one

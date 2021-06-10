@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { BsSearch } from 'react-icons/bs'
 import { GiShoppingCart } from 'react-icons/gi'
+import { useSelector } from 'react-redux'
 import { Link, NavLink } from 'react-router-dom'
-const Navigation = ({ user }) => {
+const Navigation = ({ user , logout ,handleClickCart }) => {
     const [ toggle , setToggle ] = useState(false);
+    const cart = useSelector(state => state.cart.data);
     return (
+
         <div className="flex justify-around w-full items-center py-2 ">
             <div >
                 <img src="https://firebasestorage.googleapis.com/v0/b/shop-ff2b2.appspot.com/o/images%2Flogo.jpg?alt=media&token=99516ca8-4173-4d92-8ba4-ad08175bd36c" alt="" />
@@ -19,7 +22,13 @@ const Navigation = ({ user }) => {
             </ul>
             <div className=" flex justify-center items-center">
                 <BsSearch className="mr-5 text-2xl" />
-                <GiShoppingCart className=" mr-5  text-2xl" />
+                <div className="relative mr-5">
+                    <GiShoppingCart className="text-3xl font-semibold" onClick={(e)=>handleClickCart(e)} />
+                    <div className="absolute -top-1 -right-2 bg-main w-5 h-5  flex items-center justify-center  rounded-full">
+                        <p className="text-white text-xs font-semibold">{cart.length}</p>
+                    </div>
+                </div>
+                 
                 {user
                     ? (<div className="relative">
                     <div>
@@ -28,14 +37,19 @@ const Navigation = ({ user }) => {
                             className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                             onClick={()=>{setToggle(!toggle)}}
                         >
-                            <img className="h-8 w-8 rounded-full" src="https://cdn.iconscout.com/icon/free/png-512/laptop-user-1-1179329.png" alt="" />
+                            <img className="h-8 w-8 rounded-full" src={user.image} alt="" />
                         </button>
                     </div>
                     <div 
                         className={ toggle ? 'origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none' : 'hidden'}
                         >
-                        {user.user.role===1 && (<Link to="/admin/dashboards" className="block px-4 py-2 text-sm text-gray-700">Admin</Link>)}
-                        <button type="button" className="block px-4 py-2 text-sm text-gray-700">Sign out</button>
+                        {user.role===1 && (<Link to="/admin/dashboard" className="block px-4 py-2 text-sm text-gray-700">Admin DashBoard</Link>)}
+                        <Link to="/user/dashboard" className="block px-4 py-2 text-sm text-gray-700">User DashBoard</Link>
+                        <button 
+                            type="button" 
+                            className="block px-4 py-2 text-sm text-gray-700 focus:outline-none"
+                            onClick={()=>logout()}
+                            >Sign out</button>
                     </div>
                 </div>)
                     :

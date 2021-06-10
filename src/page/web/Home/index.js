@@ -3,6 +3,7 @@ import CategoryHomePage from '../../../components/CategoryHomePage';
 import LastesBlog from '../../../components/LatestBlog';
 import Banner from '../../../components/Layout/Banner';
 import PopularProduct from '../../../components/PopularProduct';
+import ProductRelate from '../../../components/ProductRelate';
 import ServiceItem from '../../../components/ServiceItem';
 const HomePage = ({listProducts,listCategories,listBlog}) => {
     return (
@@ -13,7 +14,7 @@ const HomePage = ({listProducts,listCategories,listBlog}) => {
             <CategoryHomePage listCategories={listCategories} />
             <PopularProduct listProducts={listProducts} />
             {/* banner  */}
-            <div className="bg-red-200 flex h-96 ">
+            <div className="flex h-96 ">
                 <div className="bg-fixed h-full w-full flex flex-col justify-center items-center" style={{ backgroundImage: `url(https://demo.codezeel.com/opencart/OPC05/OPC050120/image/catalog/testimonial_parallax.jpg)` }}>
 
                 <p className="flex text-3xl font-semibold  text-center mb-10">What Client Say ?</p>

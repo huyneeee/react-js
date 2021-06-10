@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
+import React ,{useState} from 'react';
 import { useForm } from 'react-hook-form';
-import Select from 'react-select';
 const AddProductPage = ({ onSubmit, onHadleShowList, category }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const [cate, setCate] = useState(category[0]);
-    const onHadleCategory = ({ value }) => {
-        setCate(value);
+    const [file, setFile] = useState({ status: false, message: "" });
+
+    const onHandleFile = (e) => {
+        setFile({ status: false, message: "" });
+        const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/jpg'];
+        if (e.target.files[0]) {
+            if (acceptedImageTypes.includes(e.target.files[0].type) === false) {
+
+                setFile({ status: true, message: "File tải lên phải có định dạng gif,jpeg,png,jpg!" })
+                if (e.target.files[0].size > 3000000) {
+                    setFile({ status: true, message: "File tải lên tối đa là 3MB!" })
+                }
+            }
+        }
+
     }
     const onHandleSubmit = (data) => {
+   
         let product = new FormData();
         product.append('name', data.name);
         product.append('description', data.description);
@@ -15,8 +27,15 @@ const AddProductPage = ({ onSubmit, onHadleShowList, category }) => {
         product.append('quantity', data.quantity);
         product.append('image', data.image[0]);
         product.append('status', true);
-        product.append('category',cate);
-        onSubmit(product);
+        product.append('category', data.category);
+        if (data.image.length === 0) {
+            setFile({ status: true, message: "Không được để trống !" })
+        } else {
+            if (file.status === false) {
+                onSubmit(product);
+            }
+        }
+
     }
     return (
         <div className="relative bg-gray-100">
@@ -41,20 +60,24 @@ const AddProductPage = ({ onSubmit, onHadleShowList, category }) => {
 
                                                     />
 
-                                                    {errors.name && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
+                                                    {errors.name && errors.name.type ==="required" && <span className="text-xs text-red-500 absolute top-3 right-3">Không được để trống !</span>}
+                                                    {errors.name && errors.name.type ==="pattern" && <span className="text-xs text-red-500 absolute top-3 right-3">Tên sản phẩm sai định dạng !</span>}
                                                 </div>
                                             </div>
                                             <div className="col-span-6 sm:col-span-3">
 
                                                 <label className="block text-sm font-medium text-gray-700">Category</label>
                                                 <div className="relative">
-                                                    <Select
-                                                        className="basic-single "
-                                                        classNamePrefix="select"
-                                                        defaultValue={cate}
-                                                        onChange={(cate) => onHadleCategory(cate)}
-                                                        options={category}
-                                                    />
+                                                    <select   
+                                                        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                        {...register("category")}
+                                                    >
+                                                        {category.map(cate => {
+                                                            return (
+                                                                <option key={cate._id} value={cate._id}>{cate.name}</option>
+                                                            )
+                                                        })}
+                                                    </select>
                                                     {errors.categgory && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
                                                 </div>
                                             </div>
@@ -64,8 +87,10 @@ const AddProductPage = ({ onSubmit, onHadleShowList, category }) => {
                                                     <input
                                                         type="file"
                                                         className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                        {...register("image", { required: true })}
+                                                        {...register("image")}
+                                                        onChange={(e) => onHandleFile(e)}
                                                     />
+                                                    {file.status && <span className="text-xs text-red-500 absolute top-3 right-3">{file.message}</span>}
                                                 </div>
                                             </div>
 
@@ -77,10 +102,11 @@ const AddProductPage = ({ onSubmit, onHadleShowList, category }) => {
                                                         type="number"
                                                         name="quantity"
                                                         className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                        {...register("quantity", { required: true })}
+                                                        {...register("quantity", { required: true , min:0})}
                                                     />
 
-                                                    {errors.quantity && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
+                                                    {errors.quantity && errors.quantity.type ==="required" && <span className="text-xs text-red-500 absolute top-3 right-3">Không được để trống  !</span>}
+                                                    {errors.quantity && errors.quantity.type ==="min" && <span className="text-xs text-red-500 absolute top-3 right-3">Quantity không được là số âm !</span>}
                                                 </div>
                                             </div>
                                             <div className="col-span-6 sm:col-span-3">
@@ -90,11 +116,13 @@ const AddProductPage = ({ onSubmit, onHadleShowList, category }) => {
                                                     <input
                                                         type="number"
                                                         name="price"
+                                                        min={0}
                                                         className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                        {...register("price", { required: true })}
+                                                        {...register("price", { required: true , min : 0})}
                                                     />
 
-                                                    {errors.price && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
+                                                    {errors.price && errors.price.type ==="required" && <span className="text-xs text-red-500 absolute top-3 right-3">Không được để trống !</span>}
+                                                    {errors.price && errors.price.type ==="min" && <span className="text-xs text-red-500 absolute top-3 right-3">Price không được là số âm !</span>}
                                                 </div>
                                             </div>
 
@@ -108,7 +136,7 @@ const AddProductPage = ({ onSubmit, onHadleShowList, category }) => {
                                                         {...register("description", { required: true })}
                                                     />
 
-                                                    {errors.description && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
+                                                    {errors.description && <span className="text-xs text-red-500 absolute top-3 right-3">Không được để trống !</span>}
 
                                                 </div>
                                             </div>

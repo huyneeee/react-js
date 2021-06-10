@@ -8,17 +8,21 @@ const categoryApi = {
         const url = `/category/${id}`;
         return axiosClient.get(url);
     },
-    add(category){
-        const url = `/category`;
+    add(category,userid){
+        const url = `/category/${userid}`;
         return axiosClient.post(url, category);
     },
-    remove(id){
-        const url = `/category/${id}`;
+    remove(id,userid){
+        const url = `/category/${id}/${userid}`;
         return axiosClient.delete(url)
     },
-    update(id,category){
-        const url = `/category/${id}`;
+    update(id,category,userid){
+        const url = `/category/${id}/${userid}`;
         return axiosClient.put(url,category);
+    },
+    count(){
+        const url = `/countCategory`;
+        return axiosClient.get(url);
     }
 }
 export default categoryApi;

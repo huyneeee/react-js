@@ -22,7 +22,7 @@ const ListBlog = ({data,removeBlog}) => {
 
                         <th
                             className="px-6 bg-gray-100 text-gray-600 align-middle border border-solid border-gray-200 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left">
-                            Description
+                            Content
                 </th>
                         <th
                             className="px-6 bg-gray-100 text-gray-600 align-middle border border-solid border-gray-200 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left">
@@ -46,7 +46,7 @@ const ListBlog = ({data,removeBlog}) => {
                                 <div className="bg-cover bg-center w-20 h-20" style={{ backgroundImage: `url(http://localhost:4000/api/blog/image/${blog._id})` }} />
                             </td>
                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                                {/* {blog.content.substr(0, 50)}... */}
+                                {blog.content.substr(0, 50)}...
                                     </td>
                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 flex">
                             <RiEdit2Fill 

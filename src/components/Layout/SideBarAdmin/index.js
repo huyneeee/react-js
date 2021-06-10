@@ -41,20 +41,37 @@ const SideBarAdmin = () => {
                     {/* Navigation */}
                     <ul className="md:flex-col md:min-w-full flex flex-col list-none" id="navigation">
                         <li className="items-center li my-1 font-semibold hover:text-main">
-                        <NavLink to="/admin/products" exact activeClassName="text-main active" >
-             Products
+                            <NavLink to="/admin/dashboard" exact activeClassName="text-main active" >
+                                DashBoards
     </NavLink>
                         </li>
                         <li className="items-center li my-1 font-semibold hover:text-main">
-                        <NavLink to="/admin/categories" exact activeClassName="text-main active">
-             Categories
+                            <NavLink to="/admin/products" exact activeClassName="text-main active" >
+                                Products
     </NavLink>
                         </li>
                         <li className="items-center li my-1 font-semibold hover:text-main">
- 
-                            <NavLink to="/admin/blogs"exact activeClassName="text-main active" >
-             Blogs
+                            <NavLink to="/admin/categories" exact activeClassName="text-main active">
+                                Categories
     </NavLink>
+                        </li>
+                        <li className="items-center li my-1 font-semibold hover:text-main">
+
+                            <NavLink to="/admin/blogs" exact activeClassName="text-main active" >
+                                Blogs
+    </NavLink>
+                        </li>
+                        <li className="items-center li my-1 font-semibold hover:text-main">
+
+                            <NavLink to="/admin/order" exact activeClassName="text-main active" >
+                                Orders
+    </NavLink>
+                        </li>
+                        <li className="items-center li my-1 font-semibold hover:text-main">
+
+                            <NavLink to="/admin/comment" exact activeClassName="text-main active" >
+                                Comment
+</NavLink>
                         </li>
                     </ul>
                 </div>

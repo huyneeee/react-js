@@ -1,11 +1,23 @@
-import React , {useState }from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Select from 'react-select';
 const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const [cate, setCate] = useState(product.category);
-    const onHadleCategory = ({ value }) => {
-        setCate(value);
+
+    const [file, setFile] = useState({ status: false, message: "" });
+
+    const onHandleFile = (e) => {
+        setFile({ status: false, message: "" });
+        const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/jpg'];
+        if (e.target.files[0]) {
+            if (acceptedImageTypes.includes(e.target.files[0].type) === false) {
+
+                setFile({ status: true, message: "File tải lên phải có định dạng gif,jpeg,png,jpg!" })
+                if (e.target.files[0].size > 3000000) {
+                    setFile({ status: true, message: "File tải lên tối đa là 3MB!" })
+                }
+            }
+        }
+
     }
     const onHandleSubmit = (data) => {
         let product = new FormData();
@@ -16,7 +28,7 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
             product.append('price', data.price);
             product.append('quantity', data.quantity);
             product.append('status', data.status);
-            product.append('category', cate);
+            product.append('category', data.category);
             onUpdate(product, data._id);
         } else {
             product.append('name', data.name);
@@ -25,8 +37,10 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
             product.append('quantity', data.quantity);
             product.append('image', data.imageNew[0]);
             product.append('status', data.status);
-            product.append('category',cate);
-            onUpdate(product, data._id);
+            product.append('category', data.category);
+            if (file.status === false) {
+                onUpdate(product, data._id);
+            }
         }
     }
     return (
@@ -51,21 +65,29 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
                                                         {...register("name", { required: true, pattern: /^[A-Za-z0-9 ]+$/i })}
                                                         defaultValue={product.name}
                                                     />
-                                                    {errors.name && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
+                                                    {errors.name && errors.name.type ==="required" && <span className="text-xs text-red-500 absolute top-3 right-3">Không được để trống !</span>}
+                                                    {errors.name && errors.name.type ==="pattern" && <span className="text-xs text-red-500 absolute top-3 right-3">Tên sản phẩm sai định dạng !</span>}
                                                 </div>
                                             </div>
                                             <div className="col-span-6 sm:col-span-3">
 
                                                 <label className="block text-sm font-medium text-gray-700">Category</label>
                                                 <div className="relative">
-                                                    <Select
-                                                        className="basic-single "
-                                                        classNamePrefix="select"
-                                                        value={category.find(ele=>ele.value===cate)}
-                                                        onChange={(cate) => onHadleCategory(cate)}
-                                                        options={category}
-                                                    />
-                                                    {errors.categgory && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
+                                                    <select   
+                                                        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                        {...register("category")}
+                                                        defaultValue={product.category}
+                                                        selected={product.category}
+                                                    >
+                                                        {category.map(cate => {
+                                                            return (
+                                                                <option 
+                                                                select={(cate._id===product.category).toString()}
+                                                                 key={cate._id} 
+                                                                 value={cate._id}>{cate.name}</option>
+                                                            )
+                                                        })}
+                                                    </select>
                                                 </div>
                                             </div>
 
@@ -79,8 +101,10 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
                                                     <input
                                                         type="file"
                                                         className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                        {...register("imageNew", { required: false })} />
-
+                                                        {...register("imageNew", { required: false })}
+                                                        onChange={(e) => onHandleFile(e)}
+                                                        />
+                                                        {file.status && <span className="text-xs text-red-500 absolute top-3 right-3">{file.message}</span>}
                                                 </div>
                                             </div>
 
@@ -91,11 +115,12 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
                                                     <input
                                                         type="number"
                                                         className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                        {...register("quantity", { required: true })}
+                                                        {...register("quantity", { required: true , min:0})}
                                                         defaultValue={product.quantity}
                                                     />
 
-                                                    {errors.quantity && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
+                                                    {errors.quantity && errors.quantity.type ==="required" && <span className="text-xs text-red-500 absolute top-3 right-3">Không được để trống !</span>}
+                                                    {errors.quantity && errors.quantity.type ==="min" && <span className="text-xs text-red-500 absolute top-3 right-3">Quantity là 1 số lớn hơn 0!</span>}
                                                 </div>
                                             </div>
                                             <div className="col-span-6 sm:col-span-3">
@@ -106,10 +131,11 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
                                                     <input
                                                         type="number"
                                                         className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                        {...register("price", { required: true })}
+                                                        {...register("price", { required: true , min:0})}
                                                         defaultValue={product.price}
                                                     />
-                                                    {errors.price && <span className="text-xs text-red-500 absolute top-3 right-3">This field is required</span>}
+                                                    {errors.price && errors.price.type ==="required" && <span className="text-xs text-red-500 absolute top-3 right-3">Không được để trống !</span>}
+                                                    {errors.price && errors.price.type ==="min" && <span className="text-xs text-red-500 absolute top-3 right-3">Price là 1 số lớn hơn 0!</span>}
                                                 </div>
                                             </div>
 

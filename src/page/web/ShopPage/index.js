@@ -1,6 +1,121 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-const ShopPage = ({ listProducts }) => {
+import React, { useState,useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { Link, useHistory } from 'react-router-dom'
+import { addToCart } from '../../../actions/cartAction'
+import productApi from '../../../api/productApi'
+import Pagination from '../../../components/Pagination'
+const ShopPage = ({  listCategories }) => {
+    const history = useHistory();
+    const onHandleCate = (id) => {
+        history.push(`/shop/category/${id}`);
+    }
+    const dispatch = useDispatch()
+    const handleClick = (product) => {
+        dispatch(addToCart({ ...product, image: '' }));
+    }
+
+    const [listProducts,setListProducts] = useState([]);
+
+    const [ pagination, setPagination] = useState({
+        _page:1,
+        _limit:6,
+        _totalRows:1
+    });
+    const [filter,setFilter]=useState({
+        _limit:6,
+        _page:1
+    })
+    const handlePagechange = (newPage)=>{
+        setFilter({
+            ...filter,
+            _page:newPage
+        })
+    }
+
+    useEffect(() => {
+        (async () => {
+            const {_page,_limit}= filter;
+            try {
+                const {data:totalRows} = await productApi.countproduct();
+               const {data:response} = await productApi.getProductPaginate(_page,_limit);
+                
+               setListProducts(response.data);
+               setPagination({
+                ...response.pagination,
+                _totalRows :totalRows
+               });
+            } catch (error) {
+                console.log(error)
+            }
+        })()
+    }, [filter])
+
+    const ProductList = () => {
+        return (
+            <div className="grid grid-cols-3 gap-4 w-full">
+                {listProducts.map(product => {
+                    return (
+                        <div className=" h-auto w-auto group overflow-hidden relative" key={product._id}>
+                            <div
+                                className=" w-full h-80 bg-gray-100 flex justify-center items-center "
+                            >
+                                <img src={`http://localhost:4000/api/product/image/${product._id}`} alt="" className="w-40 h-40" />
+                            </div>
+                            <div className="text-center mt-5">
+                                <Link className="text-md font-semibold uppercase text-gray-900 hover:text-main" to={`/shop/${product._id}`} >{product.name}</Link>
+                                <div className="flex mt-3">
+                                    <div className="flex-1">
+                                        <button
+                                            onClick={() => { handleClick(product) }}
+                                            className="border-b-2 border-main font-bold text-main  text-sm add-to-cart focus:outline-none transform -translate-x-32 group-hover:translate-x-20 transition-all duration-500">ADD TO CARD</button>
+                                    </div>
+                                    <div className="flex-1">
+                                        <p className="font-extrabold text-md transform -translate-x-16 group-hover:translate-x-40 transition-all duration-500 text-main">$ {product.price}.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                })}
+            </div>
+        )
+    }
+    const SideBar = () => {
+        return (
+            <>
+                <div>
+                    <p className="text-lg font-semibold py-5 border-b border-gray-400">CATEGORY</p>
+                    <div className="pl-2">
+                        {listCategories.map(cate => {
+                            return (
+                                <div className="flex my-2 items-center" key={cate._id}>
+                                    <input type="radio" name="cate" className="mr-2" onClick={() => { onHandleCate(cate._id) }} />
+                                    <label>{cate.name}</label>
+                                </div>
+                            )
+                        })}
+
+                    </div>
+                </div>
+                <div>
+                    <p className="text-lg font-semibold py-5 border-b border-gray-400">FILTER BY PRICE</p>
+                    <div className="px-10">
+
+                    </div>
+                </div>
+                <div>
+                    <p className="text-lg font-semibold py-5 border-b border-gray-400">SELECT BY COLOR</p>
+                    <div className="px-10">
+                        <p className="my-1">Black</p>
+                        <p className="my-1">White</p>
+                        <p className="my-1">Red</p>
+                        <p className="my-1">Brown</p>
+                        <p className="my-1">Pink</p>
+                    </div>
+                </div>
+            </>
+        )
+    }
     return (
         <div>
             <div className="bg-gray-100 h-32 flex justify-center items-center">
@@ -8,58 +123,11 @@ const ShopPage = ({ listProducts }) => {
             </div>
             <div className=" flex px-32  mt-10">
                 <div className="w-1/4 px-5">
-                    <div>
-                        <p className="text-lg font-semibold py-5 border-b border-gray-400">CATEGORY</p>
-                        <div className="px-10">
-                            <p className="my-1">Category</p>
-                            <p className="my-1">Category</p>
-                            <p className="my-1">Category</p>
-
-                        </div>
-                    </div>
-                    <div>
-                        <p className="text-lg font-semibold py-5 border-b border-gray-400">FILTER BY PRICE</p>
-                        <div className="px-10">
-
-                        </div>
-                    </div>
-                    <div>
-                        <p className="text-lg font-semibold py-5 border-b border-gray-400">SELECT BY COLOR</p>
-                        <div className="px-10">
-                            <p className="my-1">Black</p>
-                            <p className="my-1">White</p>
-                            <p className="my-1">Red</p>
-                            <p className="my-1">Brown</p>
-                            <p className="my-1">Pink</p>
-                        </div>
-                    </div>
-
+                    {SideBar()}
                 </div>
                 <div className="w-3/4">
-                    <div className="grid grid-cols-3 gap-4 w-full">
-                        {listProducts.map(product => {
-                            return (
-                                <div className=" h-auto w-auto group overflow-hidden relative" key={product._id}>
-                                    <div
-                                        className=" w-full h-80 bg-gray-100 flex justify-center items-center "
-                                    >
-                                        <img src={`http://localhost:4000/api/product/image/${product._id}`} alt="" className="w-40 h-40" />
-                                    </div>
-                                    <div className="text-center mt-5">
-                                        <Link className="text-md font-semibold uppercase text-gray-900 " to={`/shop/${product._id}`} >{product.name}</Link>
-                                        <div className="flex mt-3">
-                                            <div className="flex-1">
-                                                <button className="border-b-2 border-main font-bold text-main  text-sm add-to-cart focus:outline-none transform -translate-x-32 group-hover:translate-x-20 transition-all duration-500">ADD TO CARD</button>
-                                            </div>
-                                            <div className="flex-1">
-                                                <p className="font-extrabold text-md transform -translate-x-16 group-hover:translate-x-40 transition-all duration-500 text-main">$ {product.price}.00</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        })}
-                    </div>
+                    {ProductList()}
+                    <Pagination pagination={pagination} onPageChange={handlePagechange} />
                 </div>
             </div>
 
