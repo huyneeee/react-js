@@ -15,6 +15,18 @@ const authApi = {
     orderByUser(id){
         const url = `/orderByUser?userid=${id}`;
         return axiosClient.post(url)
+    },
+    orderbystutus(status){
+        const url = `/orderbystutus?status=${status}`;
+        return axiosClient.post(url)
+    },
+    updateOrder(id,orderUpdate,userId){
+        const url = `/order/${id}/${userId}`;
+        return axiosClient.put(url,orderUpdate);
+    },
+    orderRencent(){
+        const url = `/orderrecent`;
+        return axiosClient.get(url)
     }
 }
 export default authApi;

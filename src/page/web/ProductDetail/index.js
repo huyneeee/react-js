@@ -58,15 +58,15 @@ const ProductDetail = ({  user }) => {
 
 
 
-            <div class="flex w-100 h-24 my-8 relative">
+            <div className="flex w-100 h-24 my-8 relative">
                 {user ?  (
                     <>
-                    <div class="w-1/12 ">
-                        <img class="ml-10 inline-block h-14  w-14 rounded-full ring-2 ring-white " src={user.image} alt=""/>
+                    <div className="w-1/12 ">
+                        <img className="ml-10 inline-block h-14  w-14 rounded-full ring-2 ring-white " src={user.image} alt=""/>
                     </div>
-                    <div class="w-11/12">
+                    <div className="w-11/12">
 
-                        <input type="text" class=" w-full py-4 px-3 bg-gray-100 border-none rounded-2xl focus:outline-none" placeholder="Write a comment..."
+                        <input type="text" className=" w-full py-4 px-3 bg-gray-100 border-none rounded-2xl focus:outline-none" placeholder="Write a comment..."
                         onKeyPress={async(e)=>{
                             const content= e.target.value;
                             if(e.charCode===13){
@@ -89,14 +89,14 @@ const ProductDetail = ({  user }) => {
                             }
                         }}
                         />
-                        <div class="text-2xl  absolute right-9 top-3">
-                            <i class="far fa-smile text-gray-300 mr-2"></i>
-                            <i class="fas fa-camera text-gray-300 mr-2"></i>
-                            <i class="far fa-sticky-note text-gray-300"></i>
+                        <div className="text-2xl  absolute right-9 top-3">
+                            <i className="far fa-smile text-gray-300 mr-2"></i>
+                            <i className="fas fa-camera text-gray-300 mr-2"></i>
+                            <i className="far fa-sticky-note text-gray-300"></i>
                         </div>
                     </div>
                     </>
-                ) : <Link to="/login" class="text-md text-gray-500">Login to Comment !</Link>}
+                ) : <Link to="/login" className="text-md text-gray-500">Login to Comment !</Link>}
             </div>
             </>
         )
@@ -117,7 +117,7 @@ const ProductDetail = ({  user }) => {
                         <p className="text-sm text-gray-600 mb-5">Category:{product.catename}</p>
                         <p className="text-sm text-gray-600 mb-5 ">Availability:{product.status ? 'Stock' : 'Instock'}</p>
                         <p className="text-sm text-gray-600 mb-5">Quantity:{product.quantity}</p>
-                        <p className="text-md text-gray-600 font-bold leading-8 mb-5">${product.price}</p>
+                        <p className="text-md text-gray-600 font-bold leading-8 mb-5">${product.price}.00</p>
                         <div className="border border-gray-200 w-full h-auto p-5 box-border bg-gray-100">
                             <div className=" w-1/3 h-auto  ">
                                 <p className="text-lg font-bold text-gray-600 mb-2">Quantity</p>

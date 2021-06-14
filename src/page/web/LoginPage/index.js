@@ -65,7 +65,7 @@ const LoginPage = ({signIn}) => {
                     </span>
                 </div>
                 <div className="flex justify-center">
-                    <button type="submit" className="px-8 py-3 text-sm bg-green-700 opacity-80 mt-10 hover:opacity-100 text-white  ">SIGN IN</button>
+                    <button type="submit" className="px-8 py-3 text-sm bg-main opacity-80 mt-10 hover:opacity-100 text-white  ">SIGN IN</button>
                 </div>
             </form>
         )
@@ -94,7 +94,7 @@ const LoginPage = ({signIn}) => {
                         <p className="text-gray-900 text-xl font-semibold mb-2">NEW CUSTOMERS</p>
                         <p className="text-gray-400 text-md mb-8">Creating an account has many benefits: check out faster, keep more than one
                 address, track orders and more.</p>
-                        <Link to="/register" className="px-8 py-3 text-sm bg-green-700 opacity-80 mt-8 hover:opacity-100 text-white ">CREATE AN
+                        <Link to="/register" className="px-8 py-3 text-sm bg-main opacity-80 mt-8 hover:opacity-100 text-white ">CREATE AN
                 ACCOUNT</Link>
                     </div>
                 </div>

@@ -37,16 +37,15 @@ const CommentPage = () => {
             } catch (error) {
                 console.log("Failed to get data", error);
             }
-        })()
+        })() 
     }, []);
 
     useEffect(() => {
-        setLoading(false)
             (async () => {
                 try {
                     const { data: comments } = await commentApi.commentByProduct(id);
                     setCommentByid(comments);
-                    setLoading(true)
+                    setLoading(false);
                 } catch (error) {
                     console.log("Failed to get data", error);
                 }

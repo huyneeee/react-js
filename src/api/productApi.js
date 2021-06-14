@@ -35,6 +35,14 @@ const productApi = {
     getProductPaginate(page,limit){
         const url =`/product/pagination?limit=${limit}&page=${page}`;
         return axiosClient.post(url);
+    },
+    getProductByTextSearch(textSearch){
+        const url = `/products/${textSearch}`;
+        return axiosClient.get(url);
+    },
+    getImage(id){
+        const url = `/image?id=${id}`;
+        return axiosClient.post(url);
     }
 }
 export default productApi;

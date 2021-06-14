@@ -198,7 +198,7 @@ function App() {
                   <BlogDetailPage />
                 </Route>
                 <Route path="/shop" exact>
-                  <ShopPage listProducts={listProducts} listCategories={listCategories} />
+                  <ShopPage  listCategories={listCategories} />
                 </Route>
                 <Route exact path="/shop/:id" >
                   <ProductDetail user={userProfile} />

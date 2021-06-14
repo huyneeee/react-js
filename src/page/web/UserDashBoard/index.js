@@ -2,17 +2,20 @@ import React, { useEffect, useState } from 'react'
 import { isAuthenticated } from '../../../auth'
 import { Link } from 'react-router-dom'
 import authApi from '../../../api/authApi';
+import Loading from '../../../components/Loading'
 const UserDashBoard = () => {
     const { user } = isAuthenticated();
     const [profile, setProfile] = useState('');
-    const [orderHistory, setOrderHistory] = useState([])
+    const [orderHistory, setOrderHistory] = useState([]);
+    const [loading , setLoading] = useState(true);
     useEffect(() => {
         (async () => {
             try {
                 const { data: userProfile } = await authApi.getOne(user._id);
                 const { data: orderByUser } = await authApi.orderByUser(user._id);
+                setLoading(false);
                 setOrderHistory(orderByUser);
-                setProfile(userProfile)
+                setProfile(userProfile);
             } catch (error) {
                 console.log(error.response)
             }
@@ -41,6 +44,10 @@ const UserDashBoard = () => {
                                 className="px-6 bg-main text-white align-middle border border-solid border-gray-200 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left">
                                 SubTotal
           </th>
+          <th
+                                className="px-6 bg-main text-white align-middle border border-solid border-gray-200 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-no-wrap font-semibold text-left">
+                                Status
+          </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,17 +56,24 @@ const UserDashBoard = () => {
 
                                 <tr className="text-left" key={index}>
 
-                                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                                         {index}
                                     </td>
-                                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                                         {c.name_of_consignee}
                                     </td>
-                                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                                         {c.createdAt.slice(0,10)}
                                     </td>
-                                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                                        {c.subtotal}
+                                    <td className="border-t-0 px-6 font-semibold align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                                        ${c.subtotal}.00
+                                    </td>
+                                    <td className="border-t-0 px-6 font-semibold align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                                        {c.status===0 && <span className="text-sm text-red-600">Chờ xác nhận</span>}
+                                        {c.status===1 && <span className="text-sm text-blue-600">Đang giao hàng</span>}
+                                        {c.status===2 && <span className="text-sm text-green-600">Đã giao hàng</span>}
+                                        {c.status===3 && <span className="text-sm text-red-600">Đã bị hủy</span>}
+
                                     </td>
                                 </tr>
                             )}
@@ -71,6 +85,7 @@ const UserDashBoard = () => {
     }
     return (
         <>
+            {loading ? (<Loading />) : 
             <div className="bg-gray-100 h-screen w-screen px-10 py-10 ">
                 <Link to="/" className="px-3 py-2 bg-main text-white text-sm rounded-md my-5 flex items-center justify-center w-16">Back</Link>
                 <div className="w-full h-60 flex bg-white rounded-md py-3 ">
@@ -119,9 +134,9 @@ const UserDashBoard = () => {
                             {orderByUserList()}
                     </div>
                 </div>
-            </div>
+            </div> }
         </>
-    )
+    ) 
 }
 
 export default UserDashBoard

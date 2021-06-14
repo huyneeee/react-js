@@ -12,7 +12,6 @@ const ProductRelate = ({ id }) => {
     const handleClick = (product) => {
         dispatch(addToCart({ ...product, image: '' }));
     }
-    console.log(ralateProduct);
     useEffect(() => {
         (async () => {
             try {
@@ -25,11 +24,10 @@ const ProductRelate = ({ id }) => {
     }, []);
     const settings = {
         dots: false,
-        infinite: true,
         slidesToShow: 4,
         slidesToScroll: 1,
         autoplay: true,
-        autoplaySpeed: 2000,
+        autoplaySpeed: 1500,
         pauseOnHover: true,
         slidesToShow: ralateProduct.length > 4 ? 4 : ralateProduct.length,
     };
@@ -39,8 +37,8 @@ const ProductRelate = ({ id }) => {
             <Slider {...settings}  >
                 {ralateProduct.map(product => {
                     return (
-                        <div>
-                            <div className=" h-auto  group overflow-hidden relative mx-3" key={product._id}>
+                        <div  key={product._id}>
+                            <div className=" h-auto  group overflow-hidden relative mx-3">
                                 <div
                                     className=" w-full h-96 bg-gray-500 bg-no-repeat bg-cover bg-center  "
                                     style={{ backgroundImage: `url(http://localhost:4000/api/product/image/${product._id})` }}

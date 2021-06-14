@@ -7,7 +7,6 @@ const OrderDetail = ({ orderId,handelShowListOrder }) => {
             try {
                 orderDetailByOrderId(orderId)
                     .then(data => {
-                        console.log(data)
                         setOrderDetail(data);
                     })
                 // setLoading(false);
@@ -42,23 +41,23 @@ const OrderDetail = ({ orderId,handelShowListOrder }) => {
                 <tbody >
                     {orderDetail.map(ele => {
                         return (
-                            <tr>
+                            <tr key={ele._id}>
                                 <th
-                                    class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-left">
+                                    className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4 text-left">
                                     {ele.id_order}
                                 </th>
-                                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                                     {ele.name}
                                 </td>
-                                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                                     <div class="bg-cover bg-center w-20 h-20" 
                                     style={{ backgroundImage: `url(http://localhost:4000/api/product/image/${ele.id_product})` }}
                                     ></div>
                                 </td>
-                                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
+                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                                     ${ele.price}.00
                                 </td>
-                                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-center text-xs whitespace-no-wrap p-4">
+                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-center text-xs whitespace-no-wrap p-4">
                                     {ele.sl}
                                 </td>
                             </tr>

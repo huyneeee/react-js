@@ -7,7 +7,7 @@ import { addOrderDetail } from '../../../api/orderDetailApi'
 import { deleteAllCart } from '../../../actions/cartAction';
 import { useHistory } from 'react-router';
 import Swal from 'sweetalert2';
-const OrderPage = ({ userProfile  , handleLoading}) => {
+const OrderPage = ({ userProfile, handleLoading }) => {
     const cart = useSelector(data => data.cart.data);
     if (cart != null) {
         var subtotal = cart.reduce((sum, { sl, price }) => sum + sl * price, 0);
@@ -18,7 +18,7 @@ const OrderPage = ({ userProfile  , handleLoading}) => {
     const history = useHistory()
     const formOrder = () => {
         return (
-            <div className="h-96 ml-10  border border-gray-300">
+            <div className="ml-10  border border-gray-300">
                 <div className=" border-b border-black px-5 py-3 text-md font-bold text-main">
                     <i className="fas fa-home " /> Shipping Address
                 </div>
@@ -43,7 +43,25 @@ const OrderPage = ({ userProfile  , handleLoading}) => {
                                 {...register("name_of_consignee", { required: true })}
                             />
                             <span className=" text-xs text-red-400 absolute right-1 top-3">
-                                {errors.name_of_consignee && errors.name_of_consignee.type==='required' &&'Không được để trống !'}
+                                {errors.name_of_consignee && errors.name_of_consignee.type === 'required' && 'Không được để trống !'}
+                            </span>
+                        </div>
+                    </div>
+                    <div className="col-span-6 sm:col-span-3 lg:col-span-2 mb-2">
+                        <label className="block text-sm font-medium text-gray-700">Email</label>
+                        <div className="relative">
+                            <input
+                                type="text"
+                                className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                {...register("email",
+                                    {
+                                        required: true,
+                                        pattern: /\S+@\S+\.\S+/
+                                    })}
+                            />
+                            <span className=" text-xs text-red-400 absolute right-6 top-14">
+                                {errors.email && errors.email.type === 'required' && 'Không được để trống!'}
+                                {errors.email && errors.email.type === 'pattern' && 'Email không đúng định dạng !'}
                             </span>
                         </div>
                     </div>
@@ -57,7 +75,7 @@ const OrderPage = ({ userProfile  , handleLoading}) => {
                                 {...register("address", { required: true })}
                             />
                             <span className=" text-xs text-red-400 absolute right-1 top-3">
-                                {errors.address && errors.address.type==='required' &&'Không được để trống !'}
+                                {errors.address && errors.address.type === 'required' && 'Không được để trống !'}
                             </span>
                         </div>
                     </div>
@@ -68,11 +86,11 @@ const OrderPage = ({ userProfile  , handleLoading}) => {
                                 type="text"
                                 className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-whiteshadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                 id="phone"
-                                {...register("phone", { required: true ,pattern:/((09|03|07|08|05)+([0-9]{8})\b)/})}
+                                {...register("phone", { required: true, pattern: /((09|03|07|08|05)+([0-9]{8})\b)/ })}
                             />
                             <span className=" text-xs text-red-400 absolute right-1 top-3">
-                                {errors.phone && errors.phone.type==='required' &&'Không được để trống !'}
-                                {errors.phone && errors.phone.type==='pattern' &&'Phone sai định dạng !'}
+                                {errors.phone && errors.phone.type === 'required' && 'Không được để trống !'}
+                                {errors.phone && errors.phone.type === 'pattern' && 'Phone sai định dạng !'}
 
                             </span>
                         </div>
@@ -164,7 +182,7 @@ const OrderPage = ({ userProfile  , handleLoading}) => {
                         timer: 2000
                     })
                 })
-                .then(()=>{
+                .then(() => {
                     // history.push('/');
                     handleLoading(false);
                 })
