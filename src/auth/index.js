@@ -41,6 +41,18 @@ export const updateUser = (user,token)=>{
     .catch(error=>console.log(error.response))
     
 }
+export const activateAcounnt = (token)=>{
+    return fetch(`${API}/auth/activate`,{
+        method:"POST",
+        headers : {
+            Accept : "appliaction/json",
+            "Content-Type": "application/json"
+        },
+        body : JSON.stringify(token)
+    })
+    .then(response=>response.json())
+    .catch(error=>console.log(error.response))
+}
 export const signout = (next)=>{
     if(typeof window !== 'undefined'){
         localStorage.removeItem('user');

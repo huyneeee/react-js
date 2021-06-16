@@ -41,9 +41,9 @@ const AdminDashBoard = () => {
     }, []);
     const oderRecent = () => {
         return (
-            <>
                 <div className="px-10">
                     <p className="text-md font-semibold text-main mb-2">Order Recent</p>
+                    <table>
                     {admin.orderRencent.map((c, index) =>
 
                         <tr className="text-left border-b border-main" key={index}>
@@ -65,8 +65,8 @@ const AdminDashBoard = () => {
                             </td>
                         </tr>
                     )}
+                    </table>
                 </div>
-            </>
         )
     }
     const ListContact = () => {

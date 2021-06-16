@@ -37,6 +37,7 @@ import ShopPage from './page/web/ShopPage';
 import UserDashBoard from './page/web/UserDashBoard';
 import { updateUser, signout } from './auth/index'
 import CommentPage from './page/admin/Comment';
+import ActivateAccountPage from './page/web/ActivateAcconuntPage';
 function App() {
   const [listProducts, setListProducts] = useState([]);
   const [listCategories, setListCategories] = useState([]);
@@ -218,6 +219,10 @@ function App() {
                 <Route exact path="/checkout" >
                   <OrderPage userProfile={userProfile} handleLoading={onHandleLoading} />
                 </Route>
+                <Route exact path="/auth/activate/:token" >
+                  <ActivateAccountPage />
+                </Route>
+                {/* /auth/activate/${token} */}
                 <Route path="*">
                   <NotFoundPage />
                 </Route>

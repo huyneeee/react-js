@@ -107,20 +107,20 @@ const OrderPage = ({ userProfile, handleLoading }) => {
                 </div>
                 <div className="p-5">
                     <p>{cart.length} ITEM IN CART</p>
-                    <hr class="my-3 text-gray-500" />
+                    <hr className="my-3 text-gray-500" />
                     {cart.map(product => {
                         return (
-                            <div class="flex my-3">
-                                <div class="bg-cover bg-center w-1/4 h-32 mr-3 relative"
+                            <div className="flex my-3" key={product._id}>
+                                <div className="bg-cover bg-center w-1/4 h-32 mr-3 relative"
                                     style={{ backgroundImage: `url(http://localhost:4000/api/product/image/${product._id})` }}
                                 >
                                     <div
-                                        class="absolute top-1 right-1 text-white text-xs rounded-full h-4 w-4 bg-main flex items-center justify-center">
+                                        className="absolute top-1 right-1 text-white text-xs rounded-full h-4 w-4 bg-main flex items-center justify-center">
                                         {product.sl}</div>
                                 </div>
-                                <div class="w-3/4">
-                                    <p class=" text-xl flex-1 text-left font-semibold text-gray-500">{product.name}</p>
-                                    <p class="w-full flex-1 text-lg text-left font-bold  text-gray-900 mt-1">${product.price}.00</p>
+                                <div className="w-3/4">
+                                    <p className=" text-xl flex-1 text-left font-semibold text-gray-500">{product.name}</p>
+                                    <p className="w-full flex-1 text-lg text-left font-bold  text-gray-900 mt-1">${product.price}.00</p>
                                 </div>
                             </div>
                         )
