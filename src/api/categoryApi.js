@@ -23,6 +23,10 @@ const categoryApi = {
     count(){
         const url = `/countCategory`;
         return axiosClient.get(url);
+    },
+    countProductOfCategory(){
+        const url = `/countProductOfCategory`;
+        return axiosClient.get(url);
     }
 }
 export default categoryApi;

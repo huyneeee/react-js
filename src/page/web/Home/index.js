@@ -3,7 +3,6 @@ import CategoryHomePage from '../../../components/CategoryHomePage';
 import LastesBlog from '../../../components/LatestBlog';
 import Banner from '../../../components/Layout/Banner';
 import PopularProduct from '../../../components/PopularProduct';
-import ProductRelate from '../../../components/ProductRelate';
 import ServiceItem from '../../../components/ServiceItem';
 const HomePage = ({listProducts,listCategories,listBlog}) => {
     return (

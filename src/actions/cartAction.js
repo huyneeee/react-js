@@ -10,16 +10,16 @@ export const deleteCart = (id)=>{
         payload:id
     }
 }
-export const upToCart = (id)=>{
+export const upToCart = (product)=>{
     return {
         type : 'UP_TO_CART',
-        payload:id
+        payload:product
     }
 }
-export const downToCart = (id)=>{
+export const downToCart = (product)=>{
     return {
         type : 'DOWN_TO_CART',
-        payload:id
+        payload:product
     }
 }
 export const deleteAllCart = ()=>{

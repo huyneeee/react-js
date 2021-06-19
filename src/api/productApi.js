@@ -1,48 +1,65 @@
 import { axiosClient } from './axiosClient';
 const productApi = {
-    getAll(){
+    getAll() {
         const url = `/products`;
         return axiosClient.get(url);
     },
-    getOne(id){
+    getOne(id) {
         const url = `/product/${id}`;
         return axiosClient.get(url);
     },
-    countproduct(){
+    countproduct() {
         const url = `/countproduct`;
         return axiosClient.get(url);
     },
-    add(product,userId){
+    add(product, userId) {
         const url = `/products/${userId}`;
         return axiosClient.post(url, product);
     },
-    remove(id,userId){
+    remove(id, userId) {
         const url = `/product/${id}/${userId}`;
         return axiosClient.delete(url)
     },
-    update(id,product,userId){
+    update(id, product, userId) {
         const url = `/product/${id}/${userId}`;
-        return axiosClient.put(url,product);
+        return axiosClient.put(url, product);
     },
-    productByCategory(cateId){
+    productByCategory(cateId) {
         const url = `/products/category/${cateId}`;
         return axiosClient.get(url);
     },
-    listRelate(id){
+    listRelate(id) {
         const url = `/products/related/${id}`;
         return axiosClient.get(url);
     },
-    getProductPaginate(page,limit){
-        const url =`/product/pagination?limit=${limit}&page=${page}`;
-        return axiosClient.post(url);
+    getProductPaginate(page, limit, gte, lte, category) {
+
+        if (lte === 0 && category === 0) {
+            const url = `/product/pagination?limit=${limit}&page=${page}&gte=${gte}`;
+            return axiosClient.post(url);
+        } else if (category && lte) {
+            const url = `/product/pagination?cateId=${category}&limit=${limit}&page=${page}&gte=${gte}`;
+            return axiosClient.post(url);
+        } else if (lte) {
+            const url = `/product/pagination?limit=${limit}&page=${page}&gte=${gte}&lte=${lte}`;
+            return axiosClient.post(url);
+        } else if (category) {
+            const url = `/product/pagination?cateId=${category}&limit=${limit}&page=${page}&gte=${gte}`;
+            return axiosClient.post(url);
+        }
+
     },
-    getProductByTextSearch(textSearch){
+    getProductByTextSearch(textSearch) {
         const url = `/products/${textSearch}`;
         return axiosClient.get(url);
     },
-    getImage(id){
-        const url = `/image?id=${id}`;
+    getImage(id) {
+        const url = `/image?id=${id}`; 
         return axiosClient.post(url);
+    },
+    sumProductOfCate() {
+        const url = `/sumProductOfCate`;
+        return axiosClient.get(url);
     }
 }
 export default productApi;

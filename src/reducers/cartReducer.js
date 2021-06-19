@@ -57,24 +57,36 @@ const cartReducer = (state = initailState, action) => {
                 return {
                     data: newCart
                 }
+            }else{
+                return {
+                    data: arrCart
+                }
             }
-            break;
         }
         case 'UP_TO_CART': {
             const arrCart = state.data;
-            const findIndexProduct = arrCart.findIndex(ele => ele._id === action.payload);
+            const findIndexProduct = arrCart.findIndex(ele => ele._id === action.payload._id);
             const sl = arrCart[findIndexProduct].sl;
-            const newProductInCart = { ...arrCart[findIndexProduct], sl: sl + 1 }
-            let newCart = [...arrCart];
-            newCart.splice(findIndexProduct, 1, newProductInCart);
-            localStorage.setItem('cart', JSON.stringify(newCart));
-            return {
-                data: newCart
+           
+            if(sl < action.payload.quantity){
+                console.log(action.payload.quantity)
+                const newProductInCart = { ...arrCart[findIndexProduct], sl: sl + 1 }
+                let newCart = [...arrCart];
+                newCart.splice(findIndexProduct, 1, newProductInCart);
+                localStorage.setItem('cart', JSON.stringify(newCart));
+                return {
+                    data: newCart
+                }
+            }else{
+                return {
+                    data : arrCart
+                }
             }
+            
         }
         case 'DOWN_TO_CART': {
             const arrCart = state.data;
-            const findIndexProduct = arrCart.findIndex(ele => ele._id === action.payload);
+            const findIndexProduct = arrCart.findIndex(ele => ele._id === action.payload._id);
             const sl = arrCart[findIndexProduct].sl;
             if (sl > 1) {
                 const newProductInCart = { ...arrCart[findIndexProduct], sl: sl - 1 }

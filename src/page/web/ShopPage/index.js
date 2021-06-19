@@ -1,49 +1,62 @@
-import React, { useState,useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { addToCart } from '../../../actions/cartAction'
 import productApi from '../../../api/productApi'
 import Pagination from '../../../components/Pagination'
-const ShopPage = ({  listCategories }) => {
-    const history = useHistory();
-    const onHandleCate = (id) => {
-        history.push(`/shop/category/${id}`);
-    }
+const ShopPage = ({ listCategories }) => {
+
     const dispatch = useDispatch()
     const handleClick = (product) => {
         dispatch(addToCart({ ...product, image: '' }));
     }
 
-    const [listProducts,setListProducts] = useState([]);
+    const [listProducts, setListProducts] = useState([]);
 
-    const [ pagination, setPagination] = useState({
-        _page:1,
-        _limit:6,
-        _totalRows:1
+    const [pagination, setPagination] = useState({
+        _page: 1,
+        _limit: 6,
+        _total: 1
     });
-    const [filter,setFilter]=useState({
-        _limit:6,
-        _page:1
+    const [filter, setFilter] = useState({
+        _limit: 6,
+        _page: 1,
+        _gte: 0,
+        _lte: 0,
+        _category:0
     })
-    const handlePagechange = (newPage)=>{
+    const onHandlePrice = (gte,lte)=>{
         setFilter({
             ...filter,
-            _page:newPage
+            _gte:gte,
+            _lte:lte
+        })
+    }
+    const onHandleCate = (id) => {
+        setFilter({
+            ...filter,
+            _category:id
+        })
+    }
+    const handlePagechange = (newPage) => {
+        setFilter({
+            ...filter,
+            _page: newPage
         })
     }
 
     useEffect(() => {
         (async () => {
-            const {_page,_limit}= filter;
+            const { _page, _limit, _gte, _lte ,_category} = filter;
             try {
-                const {data:totalRows} = await productApi.countproduct();
-               const {data:response} = await productApi.getProductPaginate(_page,_limit);
-                
-               setListProducts(response.data);
-               setPagination({
-                ...response.pagination,
-                _totalRows :totalRows
-               });
+                const { data: total } = await productApi.countproduct();
+                const { data: response } = await productApi.getProductPaginate(_page, _limit, _gte, _lte,_category);
+          
+                setListProducts(response.data);
+                setPagination({
+                    ...response.pagination,
+                    _total : total
+                });
             } catch (error) {
                 console.log(error)
             }
@@ -99,8 +112,23 @@ const ShopPage = ({  listCategories }) => {
                 </div>
                 <div>
                     <p className="text-lg font-semibold py-5 border-b border-gray-400">FILTER BY PRICE</p>
-                    <div className="px-10">
-
+                    <div className="pl-2">
+                        <div className="flex my-2 items-center">
+                            <input type="radio" name="price" className="mr-2" onClick={() => { onHandlePrice(0,0) }} />
+                            <label>All</label>
+                        </div>
+                        <div className="flex my-2 items-center">
+                            <input type="radio" name="price" className="mr-2" onClick={() => { onHandlePrice(0,100) }} />
+                            <label>$0-$100</label>
+                        </div>
+                        <div className="flex my-2 items-center">
+                            <input type="radio" name="price" className="mr-2" onClick={() => { onHandlePrice(100,500) }} />
+                            <label>$100-$500</label>
+                        </div>
+                        <div className="flex my-2 items-center">
+                            <input type="radio" name="price" className="mr-2" onClick={() => { onHandlePrice(500,1000) }} />
+                            <label>$500-$1000 </label>
+                        </div>
                     </div>
                 </div>
                 <div>

@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { signup } from '../../../auth'
-import { RiErrorWarningFill } from 'react-icons/ri'
+import { RiErrorWarningFill } from 'react-icons/ri';
+import { Link } from 'react-router-dom';
+import { signup } from '../../../auth';
 const RegisterPage = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [error, setError] = useState();
@@ -18,7 +18,6 @@ const RegisterPage = () => {
                     setSuccess(true);
                 }
             })
-
     }
     const showError = () => {
         return (
@@ -28,7 +27,6 @@ const RegisterPage = () => {
                     <RiErrorWarningFill />{error}
                 </span>
             </div>
-
         )
     }
     const showSuccess = () => {
@@ -36,7 +34,7 @@ const RegisterPage = () => {
             <div className={success ? 'text-center text-green-600 my-2' : 'hidden'}>
                 <p className="text-lg font-semibold ">Đăng ký thành công !</p>
                 <span className="flex justify-center my-2 items-center">
-                    Vui lòng đăng nhập  <Link to="/login">  tại đây</Link>
+                    Vui lòng kiểm tra gmail để kích hoạt tài khoản 
                 </span>
             </div>
 

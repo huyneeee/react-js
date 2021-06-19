@@ -15,11 +15,11 @@ const Cart = () => {
             dispatch(deleteCart(id));
         }
     }
-    const handleUpToCart = (id)=>{
-        dispatch(upToCart(id));
+    const handleUpToCart = (product)=>{
+        dispatch(upToCart(product));
     }
-    const handleDownToCart = (id)=>{
-        dispatch(downToCart(id));
+    const handleDownToCart = (product)=>{
+        dispatch(downToCart(product));
     }
     return (
         <>
@@ -53,7 +53,7 @@ const Cart = () => {
                                             <div className="flex flex-col ">
                                                 <div>
                                                     <button 
-                                                        onClick={()=>handleUpToCart(product._id)} 
+                                                        onClick={()=>handleUpToCart(product)} 
                                                             className=" focus:outline-none">
                                                                 <i className="fas fa-caret-up text-4xl"></i>
                                                     </button>
@@ -61,7 +61,7 @@ const Cart = () => {
                                                 <div>{product.sl}</div>
                                                 <div>
                                                     <button 
-                                                        onClick={()=>handleDownToCart(product._id)}  
+                                                        onClick={()=>handleDownToCart(product)}  
                                                         className=" focus:outline-none">
                                                             <i className="fas fa-caret-down text-4xl"></i>
                                                     </button>

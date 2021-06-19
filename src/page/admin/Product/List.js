@@ -1,7 +1,6 @@
 import React from 'react'
 import { AiFillDelete } from 'react-icons/ai'
 import { RiEdit2Fill } from 'react-icons/ri'
-import productApi from '../../../api/productApi'
 
 const List = ({ listProducts, removeProduct, showEditForm, user }) => {
     if (listProducts.length === 0) {

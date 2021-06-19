@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import List from './List';
-import Loading from '../../../components/Loading'
-import commentApi from '../../../api/commentApi'
+import React, { useEffect, useState } from 'react';
+import commentApi from '../../../api/commentApi';
 import productApi from '../../../api/productApi';
+import Loading from '../../../components/Loading';
 import CommentByProduct from './CommentByProduct';
+import List from './List';
 const CommentPage = () => {
     const [listComment, setListComment] = useState([]);
     const [listProduct, setListProduct] = useState([]);

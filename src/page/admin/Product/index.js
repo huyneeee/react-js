@@ -21,11 +21,14 @@ const ProductsPage = () => {
     const [pagination, setPagination] = useState({
         _page: 1,
         _limit: 5,
-        _totalRows: 1
+        _total: 1
     });
     const [filter, setFilter] = useState({
-        _limit: 5,
-        _page: 1
+        _limit: 6,
+        _page: 1,
+        _gte: 0,
+        _lte: 0,
+        _category:0
     })
     const handlePagechange = (newPage) => {
         setFilter({
@@ -37,16 +40,15 @@ const ProductsPage = () => {
     useEffect(() => {
         setLoading(true);
         (async () => {
-            const { _page, _limit } = filter;
+            const { _page, _limit, _gte, _lte ,_category} = filter;
             try {
-                const { data: totalRows } = await productApi.countproduct();
-                const { data: response } = await productApi.getProductPaginate(_page, _limit);
+                const { data: total } = await productApi.countproduct();
+                const { data: response } = await productApi.getProductPaginate(_page, _limit, _gte, _lte,_category);
                 setLoading(false);
-
                 setListProducts(response.data);
                 setPagination({
                     ...response.pagination,
-                    _totalRows: totalRows
+                    _total: total
                 });
             } catch (error) {
                 console.log("Failed to get data", error);

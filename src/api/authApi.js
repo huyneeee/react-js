@@ -27,6 +27,10 @@ const authApi = {
     orderRencent(){
         const url = `/orderrecent`;
         return axiosClient.get(url)
+    },
+    totalOrderInMonth6(){
+        const url = `/totalOrderInMonth6`;
+        return axiosClient.get(url);
     }
 }
 export default authApi;
