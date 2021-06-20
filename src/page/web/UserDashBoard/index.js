@@ -3,6 +3,7 @@ import { isAuthenticated } from '../../../auth'
 import { Link } from 'react-router-dom'
 import authApi from '../../../api/authApi';
 import Loading from '../../../components/Loading'
+import { API } from '../../../config';
 const UserDashBoard = () => {
     const { user } = isAuthenticated();
     const [profile, setProfile] = useState('');
