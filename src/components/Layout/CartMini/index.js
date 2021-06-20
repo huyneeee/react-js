@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { deleteCart } from '../../../actions/cartAction';
+import { API } from '../../../config';
 
 const CartMini = ({ showCart, handleClickCart }) => {
     const cart = useSelector(data => data.cart.data);
@@ -27,7 +28,7 @@ const CartMini = ({ showCart, handleClickCart }) => {
                                     <div className=" w-full h-24 flex border-b border-black pb-5" key={c._id}>
                                         <div
                                             className=" w-1/3 bg-no-repeat bg-cover bg-center  "
-                                            style={{ backgroundImage: `url(http://localhost:4000/api/product/image/${c._id})` }}
+                                            style={{ backgroundImage: `url(${API}/product/image/${c._id})` }}
                                         >
                                         </div>
                                         <div className="w-2/3 pl-2" >

@@ -6,6 +6,7 @@ import categoryApi from '../../../api/categoryApi'
 import commentApi from '../../../api/commentApi'
 import productApi from '../../../api/productApi'
 import ProductRelate from '../../../components/ProductRelate'
+import { API } from '../../../config'
 const ProductDetail = ({  user }) => {
     window.scrollTo(0,0)
     const { id } = useParams();
@@ -109,7 +110,7 @@ const ProductDetail = ({  user }) => {
                 <div className="flex w-full px-24 mt-20 ">
                     <div className="w-2/5 h-auto flex justify-center ">
                         <div className="bg-gray-400 h-2/3 w-3/4 ">
-                            <img src={`http://localhost:4000/api/product/image/${product._id}`} className="h-full w-full" alt="" />
+                            <img src={`${API}/product/image/${product._id}`} className="h-full w-full" alt="" />
                         </div>
                     </div>
                     <div className="w-3/5  h-auto tracking-widest">

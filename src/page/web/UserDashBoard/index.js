@@ -115,7 +115,7 @@ const UserDashBoard = () => {
                                 return (
                                     <div className="flex h-20 w-full my-3 px-5 " key={ele._id}>
                                         <div className="w-1/5 bg-center bg-cover h-20 w-20"
-                                            style={{ backgroundImage: `url(http://localhost:4000/api/product/image/${ele._id})` }}
+                                            style={{ backgroundImage: `url(${API}/product/image/${ele._id})` }}
                                         >
                                         </div>
                                         <div>

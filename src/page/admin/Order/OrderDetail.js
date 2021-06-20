@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { orderDetailByOrderId } from '../../../api/orderDetailApi'
+import { API } from '../../../config'
 const OrderDetail = ({ orderId,handelShowListOrder }) => {
     const [orderDetail, setOrderDetail] = useState([])
     useEffect(() => {
@@ -51,7 +52,7 @@ const OrderDetail = ({ orderId,handelShowListOrder }) => {
                                 </td>
                                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                                     <div class="bg-cover bg-center w-20 h-20" 
-                                    style={{ backgroundImage: `url(http://localhost:4000/api/product/image/${ele.id_product})` }}
+                                    style={{ backgroundImage: `url(${API}/product/image/${ele.id_product})` }}
                                     ></div>
                                 </td>
                                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">

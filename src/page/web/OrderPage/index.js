@@ -7,6 +7,7 @@ import { addOrderDetail } from '../../../api/orderDetailApi'
 import { deleteAllCart } from '../../../actions/cartAction';
 import { useHistory } from 'react-router';
 import Swal from 'sweetalert2';
+import { API } from '../../../config';
 const OrderPage = ({ userProfile, handleLoading }) => {
     const cart = useSelector(data => data.cart.data);
     if (cart != null) {
@@ -112,7 +113,7 @@ const OrderPage = ({ userProfile, handleLoading }) => {
                         return (
                             <div className="flex my-3" key={product._id}>
                                 <div className="bg-cover bg-center w-1/4 h-32 mr-3 relative"
-                                    style={{ backgroundImage: `url(http://localhost:4000/api/product/image/${product._id})` }}
+                                    style={{ backgroundImage: `url(${API}/product/image/${product._id})` }}
                                 >
                                     <div
                                         className="absolute top-1 right-1 text-white text-xs rounded-full h-4 w-4 bg-main flex items-center justify-center">

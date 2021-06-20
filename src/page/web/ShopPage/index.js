@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { addToCart } from '../../../actions/cartAction'
 import productApi from '../../../api/productApi'
 import Pagination from '../../../components/Pagination'
+import { API } from '../../../config'
 const ShopPage = ({ listCategories }) => {
 
     const dispatch = useDispatch()
@@ -72,7 +73,7 @@ const ShopPage = ({ listCategories }) => {
                             <div
                                 className=" w-full h-80 bg-gray-100 flex justify-center items-center "
                             >
-                                <img src={`http://localhost:4000/api/product/image/${product._id}`} alt="" className="w-40 h-40" />
+                                <img src={`${API}/product/image/${product._id}`} alt="" className="w-40 h-40" />
                             </div>
                             <div className="text-center mt-5">
                                 <Link className="text-md font-semibold uppercase text-gray-900 hover:text-main" to={`/shop/${product._id}`} >{product.name}</Link>

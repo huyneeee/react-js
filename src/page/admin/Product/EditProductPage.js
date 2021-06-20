@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { API } from '../../../config';
 const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -94,7 +95,7 @@ const EditProductPage = ({ product, onUpdate, onHadleShowList, category }) => {
                                             <div className="col-span-6 ">
                                                 <label className="block text-sm font-medium text-gray-700">Image </label>
                                                 <div className="bg-cover bg-center w-40 h-40" >
-                                                    <img src={`http://localhost:4000/api/product/image/${product._id}`} className="w-full h-full" alt="" />
+                                                    <img src={`${API}/product/image/${product._id}`} className="w-full h-full" alt="" />
                                                 </div>
                                                 <input type="hidden" value={product.image} {...register("imageOld")} />
                                                 <div className="relative">

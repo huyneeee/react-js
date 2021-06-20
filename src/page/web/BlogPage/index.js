@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector} from 'react-redux'
+import { API } from '../../../config'
 const BlogPage = () => {
     const listBlog = useSelector(state => state.blog.data);
     return (
@@ -48,7 +49,7 @@ const BlogPage = () => {
                     return (
                         <div className="h-70 flex border-b border-gray-400 py-8" key={blog._id}>
                             <div className="w-2/5 ">
-                                <img src={`http://localhost:4000/api/blog/image/${blog._id}`} alt="" className="w-full h-full" />
+                                <img src={`${API}/blog/image/${blog._id}`} alt="" className="w-full h-full" />
                             </div>
                             <div className="w-3/5 pl-8 relative">
                                 <p className="text-2xl">{blog.name}</p>

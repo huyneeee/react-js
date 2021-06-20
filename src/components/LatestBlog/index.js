@@ -3,6 +3,7 @@ import { MdDateRange } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import Loading from '../Loading'
+import {API} from '../../config'
 const LastesBlog = () => {
     const loading = useSelector(state => state.blog.loading);
     const listBlog = useSelector(state => state.blog.data);
@@ -22,7 +23,7 @@ const LastesBlog = () => {
                                     <div className=" h-auto group overflow-hidden" key={blog._id}>
                                         <div
                                             className=" w-full h-64 bg-gray-500 bg-no-repeat bg-cover bg-center  "
-                                            style={{ backgroundImage: `url(http://localhost:4000/api/blog/image/${blog._id})` }}
+                                            style={{ backgroundImage: `url(${API}/blog/image/${blog._id})` }}
                                         >
 
                                         </div>

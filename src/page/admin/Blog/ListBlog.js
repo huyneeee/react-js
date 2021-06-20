@@ -1,6 +1,7 @@
 import React from 'react'
 import { AiFillDelete } from 'react-icons/ai'
 import { RiEdit2Fill } from 'react-icons/ri'
+import { API } from '../../../config'
 const ListBlog = ({data,removeBlog}) => {
     return (
         <div>
@@ -43,7 +44,7 @@ const ListBlog = ({data,removeBlog}) => {
                                 {blog.name}
                             </td>
                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                                <div className="bg-cover bg-center w-20 h-20" style={{ backgroundImage: `url(http://localhost:4000/api/blog/image/${blog._id})` }} />
+                                <div className="bg-cover bg-center w-20 h-20" style={{ backgroundImage: `url(${API}/blog/image/${blog._id})` }} />
                             </td>
                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                                 {blog.content.substr(0, 50)}...

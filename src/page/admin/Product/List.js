@@ -1,6 +1,7 @@
 import React from 'react'
 import { AiFillDelete } from 'react-icons/ai'
 import { RiEdit2Fill } from 'react-icons/ri'
+import { API } from '../../../config'
 
 const List = ({ listProducts, removeProduct, showEditForm, user }) => {
     if (listProducts.length === 0) {
@@ -57,7 +58,7 @@ const List = ({ listProducts, removeProduct, showEditForm, user }) => {
                                 </td>
                                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                                     <div className="bg-cover bg-center w-20 h-20"
-                                     style={{ backgroundImage: `url(http://localhost:4000/api/product/image/${product._id})` }}
+                                     style={{ backgroundImage: `url(${API}/product/image/${product._id})` }}
                                     />                               
                                 </td>
                                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">

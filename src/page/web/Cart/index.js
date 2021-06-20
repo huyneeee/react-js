@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 import {deleteCart , upToCart , downToCart} from '../../../actions/cartAction'
+import { API } from '../../../config'
 const Cart = () => {
     const arr_product_cart = useSelector(data => data.cart.data);
     if(arr_product_cart!=null){
@@ -42,7 +43,7 @@ const Cart = () => {
                                         <td className=" p-4 flex  border-b border-gray-300">
                                             <div 
                                                 className="bg-cover bg-center w-1/4 h-24 mr-3 " 
-                                                style={{ backgroundImage: `url(http://localhost:4000/api/product/image/${product._id})` }}
+                                                style={{ backgroundImage: `url(${API}/product/image/${product._id})` }}
                                                 ></div>
                                             <div className="row w-3/4">
                                                 <a href="#/products/${product.id}" className="w-full text-md font-normal  text-gray-900">{product.name}</a>

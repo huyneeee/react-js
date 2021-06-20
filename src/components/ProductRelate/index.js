@@ -6,6 +6,7 @@ import productApi from '../../api/productApi';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { API } from '../../config';
 const ProductRelate = ({ id }) => {
     const [ralateProduct, setRalateProduct] = useState([])
     const dispatch = useDispatch()
@@ -40,7 +41,7 @@ const ProductRelate = ({ id }) => {
                             <div className=" h-auto  group overflow-hidden relative mx-3">
                                 <div
                                     className=" w-full h-96 bg-gray-500 bg-no-repeat bg-cover bg-center  "
-                                    style={{ backgroundImage: `url(http://localhost:4000/api/product/image/${product._id})` }}
+                                    style={{ backgroundImage: `url(${API}/product/image/${product._id})` }}
                                 >
 
                                 </div>

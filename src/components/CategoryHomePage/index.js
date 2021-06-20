@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { API } from '../../config';
 
 const CategoryHomePage = ({listCategories}) => {
 
@@ -11,7 +12,7 @@ const CategoryHomePage = ({listCategories}) => {
                     return (
                         <div className="flex-1 relative mx-2" key={cate._id}>
                             <div className="w-full ">
-                                <img src={`http://localhost:4000/api/category/image/${cate._id}`}  className="w-full" alt="" />
+                                <img src={`${API}/category/image/${cate._id}`}  className="w-full" alt="" />
                             </div>
                             <div className="absolute bottom-5 left-24 text-center">
                                 <p className="text-black text-2xl font-semibold">{cate.name}</p>
@@ -23,7 +24,7 @@ const CategoryHomePage = ({listCategories}) => {
                 return (
                     <div className="flex-1 relative mx-2" key={cate._id}>
                         <div className="w-full ">
-                            <img src={`http://localhost:4000/api/category/image/${cate._id}`}  className="w-full" alt="" />
+                            <img src={`${API}/category/image/${cate._id}`}  className="w-full" alt="" />
                         </div>
                         <div className="absolute top-5 left-5">
                             

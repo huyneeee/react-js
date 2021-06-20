@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import blogApi from '../../../api/blogApi'
 import { useParams, Link } from 'react-router-dom'
+import { API } from '../../../config'
 const BlogDetailPage = () => {
     const { id } = useParams();
     const [blog, setBlog] = useState({});
@@ -28,7 +29,7 @@ const BlogDetailPage = () => {
                     <p className="text-3xl font-semibold">{blog.name}</p>
                     <p className="text-xs my-3">Date:{blog.date}</p>
                     <div >
-                        <img src={`http://localhost:4000/api/blog/image/${blog._id}`} alt=""/>
+                        <img src={`${API}/blog/image/${blog._id}`} alt=""/>
                     </div>
                     <p className="text-md my-5 leading">{blog.content}</p>
                 </div>

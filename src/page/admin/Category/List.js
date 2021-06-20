@@ -1,6 +1,7 @@
 import React from 'react'
 import { AiFillDelete } from 'react-icons/ai'
 import { RiEdit2Fill } from 'react-icons/ri'
+import { API } from '../../../config'
 
 const List = ({ listCategories, removeCategory, showEditForm, user }) => {
 
@@ -45,7 +46,7 @@ const List = ({ listCategories, removeCategory, showEditForm, user }) => {
                                 {cate.name}
                             </td>
                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
-                                <div className="bg-cover bg-center w-20 h-20" style={{ backgroundImage: `url(http://localhost:4000/api/category/image/${cate._id})` }} />
+                                <div className="bg-cover bg-center w-20 h-20" style={{ backgroundImage: `url(${API}/category/image/${cate._id})` }} />
                             </td>
                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-no-wrap p-4">
                                 {cate.description}
